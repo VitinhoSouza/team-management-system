@@ -1,0 +1,24 @@
+.playerCard{
+    background: green;
+    width: 250px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+
+    .photoPlayer{
+        height: 200px;
+        width:200px;
+    }
+
+    .infoPlayer{
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+
+}
