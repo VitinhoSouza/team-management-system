@@ -6,10 +6,15 @@ import './services/firebase';
 
 import './styles/global.scss'
 
+import {Provider} from 'react-redux'
+import storeConfig from './store/storeConfig';
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={storeConfig()}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

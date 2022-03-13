@@ -1,8 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-// import history from "../../../history";
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '../../utils'
+
+import { RootState } from '../../store/storeConfig';
 
 export function Menu () {
+
+    const dispatch = useDispatch();
+    const authState:any = useSelector<RootState>(state => state.auth);
 
     /* const {setNavActive,setSearchByIdActive} = useContext(Context);
     const {setAuth} = useContext(AuthContext); */
@@ -30,6 +36,9 @@ export function Menu () {
         setSearchByIdActive(false);
     } */
 
+    function tryLogout(){
+        logout();
+    }
     return(
         <div>
 
@@ -46,13 +55,13 @@ export function Menu () {
             )} */}
 
             <nav>
-                <NavLink exact to="/">Página Inicial</NavLink>
+                <NavLink exact to="/home">Página Inicial</NavLink>
                 <NavLink to="/products"
                     > Gerenciar Produtos</NavLink>
                 <NavLink to="/categories" activeStyle={{backgroundColor:"#5A2626"}}
                     > Gerenciar Categorias</NavLink>
                 <div>Configurações</div>
-                <div onClick={toggleModal}>Sair</div>
+                <button onClick={tryLogout}>Sair</button>
             </nav>
         </div>
     )

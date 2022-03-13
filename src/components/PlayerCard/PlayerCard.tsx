@@ -21,7 +21,7 @@ export function PlayerCard({imgUrl,name,age,position,level}:IPlayerProps){
         }
         return(
             array.map(star => {
-                return <img src={logoStar} alt={`star${star}${name}`} />
+                return <img src={logoStar} alt={`star${star}${name}`} key={`star${star}${name}`}/>
             })
             
         )

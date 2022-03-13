@@ -1,10 +1,32 @@
+import {useDispatch} from 'react-redux';
+
+import {auth, firebase} from '../../services/firebase'
+import history from '../../history'
+import {changeUser} from "../../store/Auth/auth.action"
+
 import logoGoogle from '../../assets/logo-google.svg'
 import field3 from '../../assets/field3.jpg'
 import ball from '../../assets/soccer-ball.svg'
-
 import './Login.scss'
 
 export function Login(){
+
+    const dispatch = useDispatch();
+
+    function signWithGoogle(){
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider)
+            .then(result =>{
+                if(result.user){
+                    const {displayName,photoURL,uid} = result.user;
+                    if(!displayName || !photoURL){
+                        throw new Error('Missing Information from Google Account.');
+                    }
+                    dispatch(changeUser(uid,displayName,photoURL));
+                    history.push("/home");
+                }
+            })
+    }
 
     return(
         <div className='pageLogin'>
@@ -17,7 +39,7 @@ export function Login(){
                     <h2>Manage players and teams with this platform and have fun!</h2>
                 </div>
                 
-                <button className='buttonGoogle'>
+                <button className='buttonGoogle' onClick={signWithGoogle}>
                     <img src={logoGoogle} alt="" />
                     <span>
                         Entre com sua conta Google
