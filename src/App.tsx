@@ -1,7 +1,7 @@
 import {Router, Route, Redirect} from 'react-router-dom'
 import history from './history'
 import { Menu } from "./components/Menu/Menu";
-import { Login } from "./pages/Login";
+import { Login } from "./pages/Login/Login";
 import { Home } from './pages/Home/Home';
 
 function App() {

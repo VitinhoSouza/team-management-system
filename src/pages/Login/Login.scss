@@ -1,0 +1,112 @@
+.pageLogin{
+    // overflow: hidden;
+
+    .img-ball{
+        position: absolute;
+        display:flex;
+        height: 100px;
+        width: 100px;
+        animation-name: animationBall;
+        animation-duration: 10s;
+        animation-iteration-count: infinite;
+        z-index: 2;
+    }
+
+    @keyframes animationBall{
+        0%{transform: translate(0px,0px);}
+        10%{transform: translate(300px,0px);}
+        20%{transform: translate(600px,0px);}
+        30%{transform: translate(900px,0px);}
+        40%{transform: translate(1250px,0px);}
+        50%{transform: translate(1250px,500px);}
+        60%{transform: translate(900px,500px);}
+        70%{transform: translate(600px,500px);}
+        80%{transform: translate(300px,500px);}
+        90%{transform: translate(0px,500px);}
+        100%{transform: translate(0px,0px);}
+    }
+
+    .img-ball2{
+        position: absolute;
+        display:flex;
+        height: 100px;
+        width: 100px;
+        animation-name: animationBall2;
+        animation-duration: 10s;
+        animation-iteration-count: infinite;
+        z-index: 2;
+    }
+
+    @keyframes animationBall2{
+        0%{transform: translate(1250px,500px);}
+        10%{transform: translate(900px,500px);}
+        20%{transform: translate(600px,500px);}
+        30%{transform: translate(300px,500px);}
+        40%{transform: translate(0px,500px);}
+        50%{transform: translate(0px,0px);}
+        60%{transform: translate(300px,0px);}
+        70%{transform: translate(600px,0px);}
+        80%{transform: translate(900px,0px);}
+        90%{transform: translate(1250px,0px);}
+        100%{transform: translate(1250px,500px);}
+    }
+
+    .photoField{
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+    }
+
+    .content{
+        position: relative;
+        height: 100vh;
+        width: 100vw;
+        // background-color: rosybrown;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+
+        .texts{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            h1,h2{
+                color: #fffafa;
+                text-shadow: 0.1em 0.1em 0.2em black;
+            }
+            h1{
+                font-size: 100px; 
+            }
+
+            h2{
+                padding-top: 50px;
+                font-size: 30px;
+            }
+    
+        }
+        
+        .buttonGoogle{
+            width: 300px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background-color: #e9e9e9;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 50px;
+            img{
+                
+            }
+
+            span{
+                font-size: 16px;
+            }
+        }
+
+        .buttonGoogle:hover{
+            background-color: #bdbebd;
+        }
+    }
+}
