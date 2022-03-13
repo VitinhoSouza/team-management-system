@@ -42,7 +42,7 @@ export function Login(){
                 <button className='buttonGoogle' onClick={signWithGoogle}>
                     <img src={logoGoogle} alt="" />
                     <span>
-                        Entre com sua conta Google
+                        Login with your Google account
                     </span>
                     
                 </button>

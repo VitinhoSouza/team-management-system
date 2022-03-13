@@ -8,11 +8,13 @@ import { useEffect } from 'react';
 import { auth } from './services/firebase';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeUser} from "./store/Auth/auth.action"
+import PopUp from './components/PopUp/PopUp';
+import { changePopUp } from './store/PopUp/popUp.action';
 
 function App() {
 
   const dispatch = useDispatch();
-  const authState:any = useSelector<RootState>(state => state.auth);
+  const popUpState:any = useSelector<RootState>(state => state.popUp);
 
   useEffect(()=>{
     const unsubscribe = auth.onAuthStateChanged(user =>{
@@ -22,21 +24,36 @@ function App() {
             throw new Error('Missing Information from Google Account.');
         }
         dispatch(changeUser(uid,displayName,photoURL));
+        if(history.location.pathname === '/')
+          history.push("/home");
+      }
+      else if(history.location.pathname === '/home'){
+        history.push("/");
+        throw new Error('Unauthorized access.');
       }
     })
 
     return () => {
       unsubscribe();
     }
+    /* if(VerifyLogin() === false && history.location.pathname === '/home')
+      history.push("/");
+    else if(VerifyLogin() === true && history.location.pathname === '/')
+      history.push("/home"); */
   },[])
 
-  console.log(authState.user);
-
-  if(authState.user.id !== '' && history.location.pathname === '/')
-    history.push("/home");
+  function closePopUp(){
+    dispatch(changePopUp("NotVisible","","",""));                                                
+  }
 
   return (
     <Router history={history}>
+
+        <PopUp type={popUpState.type} 
+              status={popUpState.status} functionClosePopUp={closePopUp}  
+              message={popUpState.message}
+              submessage={popUpState.submessage}
+        />
 
       <Route exact path="/">
         <Login/>

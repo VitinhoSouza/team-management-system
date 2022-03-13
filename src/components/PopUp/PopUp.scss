@@ -1,0 +1,65 @@
+.containerPopUp {
+    position: relative;
+    right: 16px;
+    top: 4.5rem !important;
+    min-height: 52px;
+    padding: 0px 7px;
+    background-color: blue;
+    display: flex;
+    align-items: center;
+    color: black;
+
+    width: 100vw;
+    height: 10vh;
+    background: rgba(0,0,0,0);
+    position: fixed;
+    top: 200px;
+    left: 0px;
+    z-index: 200000;
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.popUp{
+    max-height: 20px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+
+    padding: 20px 20px;
+    margin-right: 15rem;
+    gap: 10px;
+    top: -5rem !important;
+    box-shadow: 0px 1px 1px black;
+
+    .text{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .submessage{
+            font-size: 0.8rem;
+
+        }
+    }
+}
+
+
+.button-close {
+    border: none;
+    background-color: white;
+}
+
+.iconSuccess{
+    background-color: green;
+    color: green;
+}
+.iconError{
+    background-color: red;
+    color: red;
+}
+.iconClose{
+    background-color: white;
+    color: white;
+}

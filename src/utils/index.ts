@@ -1,5 +1,7 @@
-import {logout} from './logout'
+function soma (){
+    return 1;
+}
 
 export {
-    logout
+    soma
 }

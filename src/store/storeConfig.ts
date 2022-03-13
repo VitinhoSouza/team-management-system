@@ -1,8 +1,10 @@
 import { createStore, combineReducers} from 'redux'
 import authReducer from './Auth/auth.reducer'
+import popUpReducer from './PopUp/popUp.reducer'
 
 const reducers = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    popUp: popUpReducer
 });
 
 function storeConfig(){

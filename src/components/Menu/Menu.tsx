@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import {logout} from '../../utils'
+import history from "../../history";
 
 import { RootState } from '../../store/storeConfig';
+import { auth } from "../../services/firebase";
 
 export function Menu () {
 
@@ -37,7 +38,14 @@ export function Menu () {
     } */
 
     function tryLogout(){
-        logout();
+        auth.signOut()
+            .then( () => {
+                history.push('/');
+            })
+            .catch(() =>{
+                throw new Error('Unable to log out.');
+            })
+    
     }
     return(
         <div>
