@@ -5,6 +5,8 @@ import history from "../../history";
 
 import { RootState } from '../../store/storeConfig';
 import { auth } from "../../services/firebase";
+// import iconLogout from "../../assets/logout.svg";
+import {IconLogout} from "../../assets/components/iconLogout"
 
 import "./Menu.scss"
 
@@ -65,13 +67,15 @@ export function Menu () {
             )} */}
 
             <nav className="menu">
-                <NavLink className="navlink" exact to="/home">Página Inicial</NavLink>
-                <NavLink className="navlink" to="/products"
-                    > Gerenciar Produtos</NavLink>
-                <NavLink className="navlink" to="/categories" activeStyle={{backgroundColor:"#5A2626"}}
-                    > Gerenciar Categorias</NavLink>
-                <div className="navlink">Configurações</div>
-                <div className="navlink" onClick={tryLogout}>Sair</div>
+                <div className="start">
+                    <NavLink className="navlink" exact to="/home"><span>Players</span> </NavLink>
+                    <NavLink className="navlink" id="central" to="/teams" activeStyle={{backgroundColor:"#5A2626"}}
+                        > <span>Teams</span> </NavLink>
+                </div>
+                
+                <div className="navlink" id="last" onClick={tryLogout}>
+                    <IconLogout width={"1.5rem"} height={"1.5rem"} color={"white"}/>
+                </div>
             </nav>
         </div>
     )

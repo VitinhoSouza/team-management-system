@@ -58,23 +58,61 @@
 
 .menu{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     height: 4.5rem;
     background-color: #009000;
     color:white;
     font-size: 1.2rem;
     width: 100%;
 
+    .start{
+        display: flex;
+        margin-left:auto;
+        margin-right: auto;
+        width: 70%;
+        justify-content: center;
+        left: 5rem;
+    }
+
     .navlink{
         height: 2.5rem;
         padding: 1rem 4rem;
+        width: 2.5rem;
         text-decoration: none;
         cursor: pointer;
         color:white;
+        vertical-align:20px !important;
+        display: flex;
+        align-items: center;
+        border-left: solid 1px black;
 
         &.active{
             background-color:#006600;
         }
+
+        >svg{
+            min-height: 1.5rem;
+            min-width: 1.5rem;
+            margin-left: 0.1rem;
+        }
+
+        >span{
+            margin-left: -1rem;
+            font-size: 1.7rem;
+        }
+
+    }
+
+    #central{
+        border: solid 1px black;
+    }
+
+    #last{
+        border: solid 1px black;
+        margin-right: 0.04rem;
+        width: 1.5rem;
+        min-width: 0.9rem;
     }
     
     .navlink:hover{
