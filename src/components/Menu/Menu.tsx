@@ -7,6 +7,7 @@ import { RootState } from '../../store/storeConfig';
 import { auth } from "../../services/firebase";
 // import iconLogout from "../../assets/logout.svg";
 import {IconLogout} from "../../assets/components/iconLogout"
+import ball from '../../assets/soccer-ball.svg'
 
 import "./Menu.scss"
 
@@ -52,7 +53,7 @@ export function Menu () {
     
     }
     return(
-        <div>
+        <div className="containerMenu">
 
             {/* {modalIsOn && (
                 <div className={styles.overlay}>
@@ -65,6 +66,8 @@ export function Menu () {
                     </div>
                 </div>  
             )} */}
+
+            <img src={ball} alt="" className="soccerBall-menu" />
 
             <nav className="menu">
                 <div className="start">

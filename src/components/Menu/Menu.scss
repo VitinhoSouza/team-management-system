@@ -1,121 +1,161 @@
-.overlay{
+.containerMenu{
 
-    display: flex;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    top: 0;
-    left: 0;
-    justify-content: center;
-    align-items: center;
+    .overlay{
 
-    .modal{
-        background-color: var(--white);
-        width: 40rem;
-        height: 15rem;
-        border-radius: 1rem;
         display: flex;
-        flex-direction: column;
-        justify-content: space-around;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        top: 0;
+        left: 0;
+        justify-content: center;
         align-items: center;
-        color: var(--black);
 
-        div{
-            width: 100%;
+        .modal{
+            background-color: var(--white);
+            width: 40rem;
+            height: 15rem;
+            border-radius: 1rem;
             display: flex;
+            flex-direction: column;
             justify-content: space-around;
+            align-items: center;
+            color: var(--black);
 
-            :first-child,:last-child{
-                height: 3rem;
-                font-size: 1rem;
-                cursor: pointer;
-                font-weight: bold;
+            div{
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+
+                :first-child,:last-child{
+                    height: 3rem;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    font-weight: bold;
+                }
+
+                :first-child{
+                    width: 15rem;
+                }
+
+                :first-child:hover{
+                    background-color: var(--gray-hover);
+                }
+
+                :last-child{
+                    width: 12rem;
+                    color: var(--white);
+                    background-color: var(--black);
+                    border-color: var(--black);
+                }
+
+                :last-child:hover{
+                    background-color: var(--black-hover);
+                }
+            }
+        }
+
+    }
+
+    .soccerBall-menu{
+        position: absolute;
+        left: 2rem;
+        top:0.2rem;
+        width: 4rem;
+    }
+
+    .menu{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 4.5rem;
+        background-color: #009000;
+        color:white;
+        font-size: 1.2rem;
+        width: 100%;
+
+        .start{
+            display: flex;
+            margin-left:auto;
+            margin-right: auto;
+            width: 70%;
+            justify-content: center;
+            left: 5rem;
+        }
+
+        .navlink{
+            height: 2.5rem;
+            padding: 1rem 4rem;
+            width: 2.5rem;
+            text-decoration: none;
+            cursor: pointer;
+            color:white;
+            vertical-align:20px !important;
+            display: flex;
+            align-items: center;
+            border-left: solid 1px black;
+
+            &.active{
+                background-color:#006600;
             }
 
-            :first-child{
-                width: 15rem;
+            >svg{
+                min-height: 1.5rem;
+                min-width: 1.5rem;
+                margin-left: 0.1rem;
             }
 
-            :first-child:hover{
-                background-color: var(--gray-hover);
+            >span{
+                margin-left: -1rem;
+                font-size: 1.7rem;
             }
 
-            :last-child{
-                width: 12rem;
-                color: var(--white);
-                background-color: var(--black);
-                border-color: var(--black);
-            }
+        }
 
-            :last-child:hover{
-                background-color: var(--black-hover);
-            }
+        #central{
+            border: solid 1px black;
+        }
+
+        #last{
+            border: solid 1px black;
+            margin-right: 0.04rem;
+            width: 1.5rem;
+            min-width: 0.9rem;
+        }
+        
+        .navlink:hover{
+            background-color:#006600;
         }
     }
 
 }
 
-.menu{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 4.5rem;
-    background-color: #009000;
-    color:white;
-    font-size: 1.2rem;
-    width: 100%;
+@media (max-width: 750px)
+{
+  .soccerBall-menu
+   {
+    height: 3rem !important;
+    width: 3rem !important;
+    top: 0.8rem !important;
+   }
+}
 
-    .start{
-        display: flex;
-        margin-left:auto;
-        margin-right: auto;
-        width: 70%;
-        justify-content: center;
-        left: 5rem;
-    }
+@media (max-width: 720px)
+{
+  .soccerBall-menu
+   {
+    height: 2.5rem !important;
+    width: 2.5rem !important;
+    top: 1rem !important;
+   }
+}
 
-    .navlink{
-        height: 2.5rem;
-        padding: 1rem 4rem;
-        width: 2.5rem;
-        text-decoration: none;
-        cursor: pointer;
-        color:white;
-        vertical-align:20px !important;
-        display: flex;
-        align-items: center;
-        border-left: solid 1px black;
-
-        &.active{
-            background-color:#006600;
-        }
-
-        >svg{
-            min-height: 1.5rem;
-            min-width: 1.5rem;
-            margin-left: 0.1rem;
-        }
-
-        >span{
-            margin-left: -1rem;
-            font-size: 1.7rem;
-        }
-
-    }
-
-    #central{
-        border: solid 1px black;
-    }
-
-    #last{
-        border: solid 1px black;
-        margin-right: 0.04rem;
-        width: 1.5rem;
-        min-width: 0.9rem;
-    }
-    
-    .navlink:hover{
-        background-color:#006600;
-    }
+@media (max-width: 700px)
+{
+  .soccerBall-menu
+   {
+    z-index: -1;
+    background-color: aqua;
+   }
 }
