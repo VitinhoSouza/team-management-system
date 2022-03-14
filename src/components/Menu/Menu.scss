@@ -11,9 +11,10 @@
         left: 0;
         justify-content: center;
         align-items: center;
+        z-index: 2;
 
         .modal{
-            background-color: var(--white);
+            background-color: #0d730d;
             width: 40rem;
             height: 15rem;
             border-radius: 1rem;
@@ -21,9 +22,13 @@
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
-            color: var(--black);
+            color: white;
 
-            div{
+            h1{
+                text-align: center;
+            }
+
+            .buttonsModal{
                 width: 100%;
                 display: flex;
                 justify-content: space-around;
@@ -32,26 +37,29 @@
                     height: 3rem;
                     font-size: 1rem;
                     cursor: pointer;
+                    border-radius: 10px 10px;
                     font-weight: bold;
                 }
 
                 :first-child{
-                    width: 15rem;
+                    width: 10rem;
+                    border:1px solid black
                 }
 
                 :first-child:hover{
-                    background-color: var(--gray-hover);
+                    background-color: #d3d3d3;
                 }
 
                 :last-child{
                     width: 12rem;
-                    color: var(--white);
-                    background-color: var(--black);
-                    border-color: var(--black);
+                    color: white;
+                    background-color: red;
+                    border-color: black;
+                    border: none;
                 }
 
                 :last-child:hover{
-                    background-color: var(--black-hover);
+                    background-color: #cc0000;
                 }
             }
         }
@@ -115,6 +123,8 @@
 
         #central{
             border: solid 1px black;
+            border-bottom: none;
+            border-top: none;
         }
 
         #last{
@@ -122,6 +132,8 @@
             margin-right: 0.04rem;
             width: 1.5rem;
             min-width: 0.9rem;
+            border-bottom: none;
+            border-top: none;
         }
         
         .navlink:hover{

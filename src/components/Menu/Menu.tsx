@@ -5,7 +5,6 @@ import history from "../../history";
 
 import { RootState } from '../../store/storeConfig';
 import { auth } from "../../services/firebase";
-// import iconLogout from "../../assets/logout.svg";
 import {IconLogout} from "../../assets/components/iconLogout"
 import ball from '../../assets/soccer-ball.svg'
 
@@ -28,12 +27,7 @@ export function Menu () {
         }
     }
 
-    /* function getOut(){
-        setAuth({token:null});
-        history.push("/login");
-    }
-
-    function activeProducts(){
+    /* function activeProducts(){
         setNavActive("products");
         setSearchByIdActive(false);
     }
@@ -55,28 +49,27 @@ export function Menu () {
     return(
         <div className="containerMenu">
 
-            {/* {modalIsOn && (
-                <div className={styles.overlay}>
-                    <div className={styles.modal}>
-                        <h1>Tem certeza que deseja sair do sistema?</h1>
-                        <div>
-                            <button onClick={toggleModal}>Não, continuar no sistema.</button>
-                            <button onClick={getOut}>Sim, sair!</button>
+            {modalIsOn && (
+                <div className="overlay">
+                    <div className="modal">
+                        <h1>Are you sure you want to log out of the system?</h1>
+                        <div className="buttonsModal">
+                            <button onClick={toggleModal}>Cancel</button>
+                            <button onClick={tryLogout}>Yes, I want out!</button>
                         </div>
                     </div>
                 </div>  
-            )} */}
+            )}
 
             <img src={ball} alt="" className="soccerBall-menu" />
 
             <nav className="menu">
                 <div className="start">
                     <NavLink className="navlink" exact to="/home"><span>Players</span> </NavLink>
-                    <NavLink className="navlink" id="central" to="/teams" activeStyle={{backgroundColor:"#5A2626"}}
-                        > <span>Teams</span> </NavLink>
+                    <NavLink className="navlink" id="central" to="/teams"> <span>Teams</span> </NavLink>
                 </div>
                 
-                <div className="navlink" id="last" onClick={tryLogout}>
+                <div className="navlink" id="last" onClick={toggleModal}>
                     <IconLogout width={"1.5rem"} height={"1.5rem"} color={"white"}/>
                 </div>
             </nav>

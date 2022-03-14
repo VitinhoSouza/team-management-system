@@ -76,6 +76,14 @@ function App() {
         </div>
       </Route>
 
+      <Route path="/teams">
+        <div className='pageTeams'>
+          <Menu/>
+          <div>TEAMS</div>
+          <Footer/> 
+        </div>
+      </Route>
+
     </Router>
   );
 }
