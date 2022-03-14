@@ -9,56 +9,54 @@ import {IconSuccess} from '../../assets/components/iconSuccess';
 // import { IconAlert, IconSuccess } from '../../assets/components';
 
 interface IPopUp {
+    isVisible: true | false
     type: "Success" | "Error"
-    message?: string
-    status?: "Visible" | "NotVisible"
+    message: string
     submessage?: string
     functionClosePopUp?: () => void
 }
 
-const PopUp: React.FC<IPopUp> = (props: IPopUp) => {
+const PopUp: React.FC<IPopUp> = ({isVisible,functionClosePopUp,type,message,submessage}: IPopUp) => {
 
-    const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
+    /* const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
 
     useEffect(() => {
-        if (props.status === "Visible") {
+        if (isVisible)
             setPopUpVisible(true)
-        }
-        else {
+        else
             setPopUpVisible(false)
-        }
-    }, [props.status])
+    }, [isVisible]) */
 
     useEffect(()=>{
-        if(props.status === 'Visible'){
+        if(isVisible){
             setTimeout(()=>{
-                props.functionClosePopUp !== undefined &&
-                props.functionClosePopUp()
-            },5000)
+                functionClosePopUp !== undefined &&
+                functionClosePopUp()
+            },8000)
         }
-    },[props.status])
+    },[isVisible])
 
 
     function showPopUp() {
         return (
             <div className="containerPopUp">
                 <div className="popUp">
-                    <div >
-                        {props.type === "Success"
-                            ? <IconSuccess/>
-                            : props.type === "Error"
-                                ? <IconAlert/>
-                                : <IconAlert/>}
+                    <div className="icons-text">
+                        <div className="iconBase">
+                            {type === "Success"
+                                ? <IconSuccess/>
+                                : type === "Error"
+                                    ? <IconAlert/>
+                                    : <IconAlert/>}
+                        </div>
+                        <span className="message">{message}</span>
+                        <button className="iconClose" onClick={functionClosePopUp}>
+                                <IconClose/>
+                        </button>
                     </div>
-                    <div className="text">
-                        <span className="message">{props.message}</span>
-                        {props.submessage !== undefined && (
-                            <span className="submessage">{props.submessage}</span>
+                    {submessage !== undefined && (
+                            <span className="submessage">{submessage}</span>
                         )}
-                    </div>
-                    <button className="button-close" onClick={props.functionClosePopUp}>
-                            <IconClose/>
-                    </button>
                 </div>
             </div>
         )
@@ -66,7 +64,7 @@ const PopUp: React.FC<IPopUp> = (props: IPopUp) => {
 
     return (
         <>
-            {popUpVisible ? showPopUp() : false}
+            {isVisible ? showPopUp() : false}
         </>
     )
 }

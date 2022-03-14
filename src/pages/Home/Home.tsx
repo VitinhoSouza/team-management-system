@@ -12,7 +12,7 @@ export function Home(){
     const authState:any = useSelector<RootState>(state => state.auth);
     
     return(
-        <div>
+        <div className="homeContainer">
             <div className="playerCards">
                 
                 <PlayerCard age={22} level={4} name='Vitinho' position="MC" 

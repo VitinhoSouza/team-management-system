@@ -1,18 +1,26 @@
-.playerCards{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    min-height: 250px;
-
-
-    .button-addPlayer{
-        width: 250px;
-        height: 250px;
+.homeContainer{
+    background-color: #dcdcdc;
+    min-height: 72vh;
+    width: 100%;
+    .playerCards{
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
-        margin-top: 10px;
+        flex-wrap: wrap;
+        min-height: 72vh;
+        height: 100%;
+        width: 100%;
+        padding-bottom: 10px;
+    
+        .button-addPlayer{
+            width: 250px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            margin-top: 10px;
+        }
     }
 }
+

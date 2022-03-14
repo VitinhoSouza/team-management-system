@@ -6,6 +6,8 @@ import history from "../../history";
 import { RootState } from '../../store/storeConfig';
 import { auth } from "../../services/firebase";
 
+import "./Menu.scss"
+
 export function Menu () {
 
     const dispatch = useDispatch();
@@ -62,14 +64,14 @@ export function Menu () {
                 </div>  
             )} */}
 
-            <nav>
-                <NavLink exact to="/home">Página Inicial</NavLink>
-                <NavLink to="/products"
+            <nav className="menu">
+                <NavLink className="navlink" exact to="/home">Página Inicial</NavLink>
+                <NavLink className="navlink" to="/products"
                     > Gerenciar Produtos</NavLink>
-                <NavLink to="/categories" activeStyle={{backgroundColor:"#5A2626"}}
+                <NavLink className="navlink" to="/categories" activeStyle={{backgroundColor:"#5A2626"}}
                     > Gerenciar Categorias</NavLink>
-                <div>Configurações</div>
-                <button onClick={tryLogout}>Sair</button>
+                <div className="navlink">Configurações</div>
+                <div className="navlink" onClick={tryLogout}>Sair</div>
             </nav>
         </div>
     )

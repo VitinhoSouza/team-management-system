@@ -1,8 +1,8 @@
 import React from "react";
 
 export const IconAlert = ({
-    height = "16px",
-    width = "16px",
+    height = "22px",
+    width = "22px",
     color = "#EE6411"
 } : React.SVGProps<SVGAElement> ) : JSX.Element => (
     <svg width={width} height={height} viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">

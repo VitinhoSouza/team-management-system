@@ -22,10 +22,12 @@
 }
 
 .popUp{
-    max-height: 20px;
+    max-height: 25px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    background-color: white;
+    justify-content: space-evenly;
+    background-color: #ffdb58;
 
     padding: 20px 20px;
     margin-right: 15rem;
@@ -33,22 +35,34 @@
     top: -5rem !important;
     box-shadow: 0px 1px 1px black;
 
-    .text{
+    .icons-text{
         display: flex;
-        flex-direction: column;
         align-items: center;
 
-        .submessage{
-            font-size: 0.8rem;
-
+        .iconBase{
+            border: none;
+            background-color: none;
+            padding-right: 10px;
+            position: relative;
+            top:5px;
+        }
+        .message{
+            padding-top: 10px;
+        }
+        .iconClose{
+            position: relative;
+            border:none;
+            background-color: #ffdb58;
+            left: 35px;
+            top:5px
         }
     }
-}
 
+    .submessage{
+        font-size: 0.8rem;
 
-.button-close {
-    border: none;
-    background-color: white;
+    }
+    
 }
 
 .iconSuccess{
@@ -58,8 +72,4 @@
 .iconError{
     background-color: red;
     color: red;
-}
-.iconClose{
-    background-color: white;
-    color: white;
 }

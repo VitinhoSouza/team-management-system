@@ -10,6 +10,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {changeUser} from "./store/Auth/auth.action"
 import PopUp from './components/PopUp/PopUp';
 import { changePopUp } from './store/PopUp/popUp.action';
+import Footer from './components/Footer/Footer';
+
+import "./App.scss"
 
 function App() {
 
@@ -24,12 +27,17 @@ function App() {
             throw new Error('Missing Information from Google Account.');
         }
         dispatch(changeUser(uid,displayName,photoURL));
-        if(history.location.pathname === '/')
+        if(history.location.pathname === '/'){
           history.push("/home");
+          /* dispatch(changePopUp(true,"Error","Unauthorized access!",
+          "To access the home screen you need to login with a google account.")) */
+        }
       }
       else if(history.location.pathname === '/home'){
+        // console.log(history, "tentou /home");
         history.push("/");
-        throw new Error('Unauthorized access.');
+        /* dispatch(changePopUp(true,"Error","Unauthorized access!",
+          "To access the home screen you need to login with a google account.")) */
       }
     })
 
@@ -43,16 +51,17 @@ function App() {
   },[])
 
   function closePopUp(){
-    dispatch(changePopUp("NotVisible","","",""));                                                
+    dispatch(changePopUp(false,"","",""));                                                
   }
 
   return (
     <Router history={history}>
 
         <PopUp type={popUpState.type} 
-              status={popUpState.status} functionClosePopUp={closePopUp}  
+              isVisible={popUpState.status}   
               message={popUpState.message}
               submessage={popUpState.submessage}
+              functionClosePopUp={closePopUp}
         />
 
       <Route exact path="/">
@@ -60,8 +69,11 @@ function App() {
       </Route>
 
       <Route path="/home">
-        <Menu/>
-        <Home/> 
+        <div className='pageHome'>
+          <Menu/>
+          <Home/>
+          <Footer/> 
+        </div>
       </Route>
 
     </Router>

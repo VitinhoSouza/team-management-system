@@ -1,8 +1,8 @@
 const initialState = {
-    status: "Visible",
+    status: false,
     type: "Successs",
-    message: "Generic",
-    submessage: "Generic"
+    message: "GenericGenericGeneric",
+    submessage: "GenericGenericGenericGenericGenericGenericGeneric"
 }
 
 export default function(state = initialState, action:any){
@@ -12,9 +12,9 @@ export default function(state = initialState, action:any){
             return {
                 ...state,
                 status: action.payload.status,
-                type: action.payload.status,
-                message: action.payload.status,
-                submessage: action.payload.status,
+                type: action.payload.type,
+                message: action.payload.message,
+                submessage: action.payload.submessage,
             }
 
         default:
