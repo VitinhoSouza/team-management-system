@@ -1,7 +1,8 @@
 import { useState } from "react";
 import logoStar from '../../assets/star.svg';
+import { IconDelete } from '../../assets/components/iconDelete';
 import { IconEdit } from '../../assets/components/iconEdit';
-import { ModalEditPlayer } from '../ModalPlayers/ModalPlayers';
+import { ModalDeletePlayer, ModalEditPlayer } from '../ModalPlayers/ModalPlayers';
 
 import './PlayerCard.scss';
 
@@ -12,12 +13,16 @@ type IPlayerProps = {
     age: number
     position: string
     level: 1 | 2 | 3 | 4 | 5
+    isCaptain?:boolean
+    WithinATeam?:boolean
 }
 
 
-export function PlayerCard({imgUrl,name,age,position,level,id}:IPlayerProps){
+export function PlayerCard({imgUrl,name,age,position,level,id,isCaptain,WithinATeam}:IPlayerProps){
 
     const [modalEditIsOn, setModalEditIsOn] = useState(false);
+    const [modalDeleteIsOn, setModalDeleteIsOn] = useState(false);
+    // const [playerToBeDeleted, setPlayerToBeDeleted] = useState<IPlayerProps>();
 
     function toggleModalEdit(){
         if(modalEditIsOn === true){
@@ -27,8 +32,21 @@ export function PlayerCard({imgUrl,name,age,position,level,id}:IPlayerProps){
         }
     }
 
+    function toggleModalDelete(){
+        if(modalDeleteIsOn === true){
+            setModalDeleteIsOn(false);
+        }else{
+            setModalDeleteIsOn(true);
+        }
+    }
+
+
     function editPlayer(player:IPlayerProps){
         console.log("Editando o jogador",player)
+    }
+
+    function deletePlayer(){
+        console.log("deletando o jogador de id",id);
     }
 
     function mountStars(){
@@ -58,10 +76,38 @@ export function PlayerCard({imgUrl,name,age,position,level,id}:IPlayerProps){
                                 }
                 />
             )}
+
+            {modalDeleteIsOn && (
+                <ModalDeletePlayer toggleModal={toggleModalDelete} 
+                                confirm={deletePlayer} 
+                                idPlayer={id} namePlayer={name}
+                />
+            )}
             <img className='photoPlayer' src={imgUrl} alt="Player photo" />
-            <i onClick={toggleModalEdit}> <IconEdit color='white' width={"1.5rem"} height={"1.5rem"}/> </i>
-            <div className='infoPlayer'>
-                <h2>{name}</h2>
+       
+            {WithinATeam === true ? (
+                <>
+                </>
+            ):(
+                <>
+                    <i className="delete" onClick={toggleModalDelete}> 
+                        <IconDelete color='white' width={"2.5rem"} height={"2.5rem"}/> 
+                    </i>
+                    <i className="edit" onClick={toggleModalEdit}> 
+                        <IconEdit color='white' width={"1.5rem"} height={"1.5rem"}/> 
+                    </i>
+                </>
+            )
+            }
+         
+            <div className='infoPlayer' id={WithinATeam === true ? "withinATeam" : ""}>
+                <div className="nameCaptain">
+                    {isCaptain ? (
+                        <h2 id="captain">#{id} - {name} C</h2>
+                    ):(
+                        <h2>#{id} - {name} </h2>
+                    )}
+                </div>
                 <h3>{age} years</h3>
                 <h3>{position}</h3>
                 <h3>{mountStars()}</h3>

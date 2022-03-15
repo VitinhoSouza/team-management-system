@@ -24,7 +24,14 @@ type IModalEdit = {
     confirm:(player:IPlayerProps) => void;
     actionButton:string;
     title:string;
-    player:IPlayerProps
+    player:IPlayerProps;
+}
+
+type IModalDelete = {
+    toggleModal:() => void;
+    confirm:() => void;
+    idPlayer: number;
+    namePlayer: string;
 }
 
 
@@ -246,6 +253,30 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
                 <footer className="buttonsModal-component">
                     <button onClick={toggleModal}>Cancel</button>
                     <button onClick={validatePlayer}>{actionButton !== undefined ? actionButton: "Create"}</button>
+                </footer>
+            </div>
+        </div>
+    )
+}
+
+export const ModalDeletePlayer = ({toggleModal,confirm,idPlayer,namePlayer}:IModalDelete) => {
+
+
+    return(
+        <div className="overlay">
+            <div className="modal" id="modalDelete">
+                <header className="header">
+                    <div className="getout" onClick={toggleModal}>
+                        <img src={iconClose} alt="" />
+                    </div>
+                    <span className="title">Deleting a player</span>
+                </header>
+                <main className="form">
+                    <h2>Are you sure you want to delete player  #{idPlayer} - {namePlayer}?</h2>
+                </main>
+                <footer className="buttonsModal-component">
+                    <button onClick={toggleModal}>Cancel</button>
+                    <button onClick={confirm}>Delete</button>
                 </footer>
             </div>
         </div>

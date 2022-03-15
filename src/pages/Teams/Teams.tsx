@@ -16,10 +16,11 @@ export function Teams(){
         return(
             teams.map((team:any) => {
                 return <TeamCard 
-                        idCaptain={team.idCaptain}
-                        name={team.name}
-                        idPlayers={team.idPlayers}
-                    />
+                            id={team.id}
+                            idCaptain={team.idCaptain}
+                            name={team.name}
+                            idPlayers={team.idPlayers}
+                        />
             })
             
         )

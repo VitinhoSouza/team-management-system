@@ -13,24 +13,47 @@
         margin-top: 1rem;
     }
 
-    i{
-        >svg{
-            position: relative;
-            top: -10rem;
-            left: 6rem;
+    .delete,.edit{
+        position: relative;
+        top: -10rem;
+        left: 6rem;
+
+        display: flex;
+        flex-direction: column;
+
+        svg{
             cursor: pointer;
         }
+
     }
 
     .infoPlayer{
         height: 7rem;
-        margin-top: -1rem;
+        margin-top: -3.5rem;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
         color: white;
+
+        .nameCaptain{
+
+            height: 1.7rem;
+
+            h2{
+
+            }
+
+            #captain{
+                color: yellow;
+            }
+        }
     }
+
+    #withinATeam{
+        margin-top: 0.5rem;
+    }
+
 
 
 }

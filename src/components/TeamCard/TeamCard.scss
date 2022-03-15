@@ -1,31 +1,76 @@
 .teamCard{
-    background: none;
+    background: #93bf85;
     border: 1px solid black;
     z-index: 0;
     width: 90vw;
-    height: 25rem;
+    min-height: 26rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0.5rem 0.5rem;
 
     .initCard{
-        height: 5rem;
-        width:10rem;
-        margin-top: 1rem;
-    }
+        min-height: 5rem;
+        padding-bottom: 1rem;
+        width:100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
-    i{
-        >svg{
-            position: relative;
-            top: -1rem;
-            left: 6rem;
-            cursor: pointer;
+        .nameIcons{
+            color: #009000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 0.8rem;
+            height: 3rem;
+
+            .icons{
+                display: flex;
+                flex-direction: row-reverse;
+                align-items: center;
+                margin-top: 1rem;
+                
+                .delete, .edit{
+                    position: relative;
+                    top:0.15rem;
+                    margin: 0.5rem;
+
+                    >svg{
+                        cursor: pointer;
+                    }
+                }
+
+                .delete{
+                    top: -0.5rem;
+                    left: 27rem;
+                }
+
+                .edit{
+                    margin: 0;
+                    top: -0.5rem;
+                    left: 1rem;
+                }
+
+
+            }
+            
+        }
+
+        h3{
+            text-align: center;
+        }
+
+        h1{
+            min-width: 10rem;
+            margin-right: 1rem;
         }
     }
 
-    .teamPlayers{
-        min-height: 15rem;
+    .teamPlayers{/* 
+        min-height: 15rem; */
         width: 90vw;
         margin-top: -1rem;
         display: flex;
@@ -33,6 +78,7 @@
         justify-content: space-around;
         flex-wrap: wrap;
         color: white;
+
     }
 
 

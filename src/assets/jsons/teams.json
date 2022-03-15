@@ -1,7 +1,15 @@
 [
     {
+        "id":1,
         "name":"Juatama FC",
-        "idPlayers": [1,2,3,4],
+        "idPlayers": [1,2,3],
+        "idCaptain": 3
+    },
+    {
+        "id":2,
+        "name":"Quixadá FC",
+        "idPlayers": [1,3,4,5],
         "idCaptain": 1
     }
+
 ]
