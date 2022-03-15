@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import iconClose from "../../assets/close.svg";
+import { changePopUp } from "../../store/PopUp/popUp.action";
+import { RootState } from "../../store/storeConfig";
 import './Modal.scss';
 
 type IPlayerProps = {
@@ -17,6 +20,9 @@ type IModal = {
 }
 
 const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModal) => {
+
+    const dispatch = useDispatch();
+    // const popUpState:any = useSelector<RootState>(state => state.popUp);
 
     const [newName,setNewName] = useState<string>("");
     const [newImgUrl,setNewImgUrl] = useState<string>("");
@@ -42,6 +48,29 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModal) => {
             setNewAge(value);
         else if(prop === 'level' && value === 1 || value === 2 || value === 3 ||value === 4 || value === 5)
             setNewLevel(value);
+    }
+
+    function onlyCharSpace(value:string){
+        for (var i = 0; i < value.length; i++) {
+            if(value[i] != " ")
+                return false;
+        }
+        return true;
+    }
+    
+    function validatePlayer(){
+        if(onlyCharSpace(newName) || onlyCharSpace(newImgUrl) || onlyCharSpace(newPosition))
+            dispatch(changePopUp(true,"Error","Unable to create player","Fill in the fields correctly"))
+        else{
+            confirm({
+                imgUrl:newImgUrl,
+                age:newAge,
+                level:newLevel,
+                name:newName,
+                position:newPosition
+            })
+            toggleModal();
+        }
     }
 
     return(
@@ -93,15 +122,7 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModal) => {
                 </main>
                 <footer className="buttonsModal-component">
                     <button onClick={toggleModal}>Cancel</button>
-                    <button onClick={()=>confirm(
-                        {
-                            imgUrl:newImgUrl,
-                            age:newAge,
-                            level:newLevel,
-                            name:newName,
-                            position:newPosition
-                        }
-                    )}>{actionButton !== undefined ? actionButton: "Create"}</button>
+                    <button onClick={validatePlayer}>{actionButton !== undefined ? actionButton: "Create"}</button>
                 </footer>
             </div>
         </div>

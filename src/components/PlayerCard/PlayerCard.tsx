@@ -1,4 +1,5 @@
 import logoStar from '../../assets/star.svg';
+import { IconEdit } from '../../assets/components/iconEdit';
 import './PlayerCard.scss';
 
 type IPlayerProps = {
@@ -29,7 +30,8 @@ export function PlayerCard({imgUrl,name,age,position,level}:IPlayerProps){
 
     return(
         <div className='playerCard'>
-            <img className='photoPlayer' src={imgUrl} alt="" />
+            <img className='photoPlayer' src={imgUrl} alt="Player photo" />
+            <IconEdit color='white' width={"1.5rem"} height={"1.5rem"}/>
             <div className='infoPlayer'>
                 <h2>{name}</h2>
                 <h3>{age} years</h3>

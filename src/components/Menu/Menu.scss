@@ -15,8 +15,8 @@
 
         .modal{
             background-color: #0d730d;
-            width: 40rem;
-            height: 15rem;
+            width: 25rem;
+            height: 12rem;
             border-radius: 1rem;
             display: flex;
             flex-direction: column;
@@ -24,8 +24,10 @@
             align-items: center;
             color: white;
 
-            h1{
+            span{
+                width: 90%;
                 text-align: center;
+                font-size: 1.43rem;
             }
 
             .buttonsModal{

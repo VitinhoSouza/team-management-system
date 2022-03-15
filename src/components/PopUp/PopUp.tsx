@@ -32,7 +32,7 @@ const PopUp: React.FC<IPopUp> = ({isVisible,functionClosePopUp,type,message,subm
             setTimeout(()=>{
                 functionClosePopUp !== undefined &&
                 functionClosePopUp()
-            },8000)
+            },5000)
         }
     },[isVisible])
 

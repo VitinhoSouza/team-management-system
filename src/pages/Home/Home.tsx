@@ -3,11 +3,12 @@ import { useState } from 'react';
 
 import { PlayerCard } from "../../components/PlayerCard/PlayerCard";
 import { RootState } from '../../store/storeConfig';
+import ModalAddPlayer from '../../components/Modal/Modal';
 
 import plusIcon from '../../assets/plus.svg'
 
 import './Home.scss';
-import ModalAddPlayer from '../../components/Modal/Modal';
+
 
 type IPlayerProps = {
     imgUrl:string
@@ -35,6 +36,14 @@ export function Home(){
     function createPlayer(player:IPlayerProps){
         console.log("Criando ", player );
     }
+
+    function searchPlayerByName(playerName:string){
+        console.log("Pesquisando ", playerName );
+    }
+
+    function searchMorePlayers(){
+        console.log("Pesquisando mais..." );
+    }
     
     return(
         <div className="homeContainer">
@@ -45,6 +54,14 @@ export function Home(){
                                 title="Creating a player"
                 />
             )}
+
+            <div className='searchPlayer'>
+                <span>Search players by name:</span>
+                <input type="text" id="text" 
+                    placeholder="Enter the name of the player you want to search for"
+                    onInput={(e:any)=>searchPlayerByName(e.target.value)}
+                />
+            </div>
 
             <div className="playerCards">
                 
@@ -61,10 +78,14 @@ export function Home(){
                     imgUrl="https://www.ofutebolero.com.br/__export/1623535297137/sites/elfutboleromx/img/2021/06/12/neymar-brasil-argentina-16-10-2018_16iqsksvwzw5w107ek63d4fnst.jpg_1720385577.jpg" />
                 
                 <button className="button-addPlayer" onClick={toggleModal}>
-                    Adicionar mais um jogador
+                    <span> Create a new player</span>
                     <img src={plusIcon} alt="" />
                 </button>
 
+            </div>
+
+            <div className='pagination' onClick={searchMorePlayers} >
+                <span>Click here to search more</span>
             </div>
             
         </div>

@@ -52,7 +52,7 @@ export function Menu () {
             {modalIsOn && (
                 <div className="overlay">
                     <div className="modal">
-                        <h1>Are you sure you want to log out of the system?</h1>
+                        <span>Are you sure you want to log out of the system?</span>
                         <div className="buttonsModal">
                             <button onClick={toggleModal}>Cancel</button>
                             <button onClick={tryLogout}>Yes, I want out!</button>
