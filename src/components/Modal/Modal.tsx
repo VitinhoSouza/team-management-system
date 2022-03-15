@@ -12,14 +12,24 @@ type IPlayerProps = {
     position: string
     level: 1 | 2 | 3 | 4 | 5
 }
-type IModal = {
+type IModalAdd = {
     toggleModal:() => void;
     confirm:(player:IPlayerProps) => void;
     actionButton:string;
     title:string;
 }
 
-const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModal) => {
+type IModalEdit = {
+    toggleModal:() => void;
+    confirm:(player:IPlayerProps) => void;
+    actionButton:string;
+    title:string;
+    player:IPlayerProps
+}
+
+
+
+const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAdd) => {
 
     const dispatch = useDispatch();
     // const popUpState:any = useSelector<RootState>(state => state.popUp);
@@ -112,6 +122,116 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModal) => {
                         <select name="select" className="inputForm" id="selectStars" 
                             value={newLevel} 
                             onInput={(e:any)=>changeInfoNewPlayer("level",parseInt(e.target.value))} >
+                            <option value="1" selected={isSelected("1")}>1 star</option>
+                            <option value="2" selected={isSelected("2")}>2 stars</option>
+                            <option value="3" selected={isSelected("3")}>3 stars</option>
+                            <option value="4" selected={isSelected("4")}>4 stars</option>
+                            <option value="5" selected={isSelected("5")}>5 stars</option>
+                        </select>
+                    </div>
+                </main>
+                <footer className="buttonsModal-component">
+                    <button onClick={toggleModal}>Cancel</button>
+                    <button onClick={validatePlayer}>{actionButton !== undefined ? actionButton: "Create"}</button>
+                </footer>
+            </div>
+        </div>
+    )
+}
+
+export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:IModalEdit) => {
+
+    const dispatch = useDispatch();
+    // const popUpState:any = useSelector<RootState>(state => state.popUp);
+
+    const [name,setName] = useState<string>(player.name);
+    const [imgUrl,setImgUrl] = useState<string>(player.imgUrl);
+    const [position,setPosition] = useState<string>(player.position);
+    const [age,setAge] = useState<number>(player.age);
+    const [level,setLevel] = useState<1|2|3|4|5>(player.level);
+
+    function isSelected(value:any){
+        if(value === level)
+            return true;
+        return false;
+    }
+
+    function changeInfoPlayer(prop:string,value:string|number){
+    
+        if(prop === 'imgUrl' && typeof value === 'string')
+            setImgUrl(value);
+        else if(prop === 'name' && typeof value === 'string')
+            setName(value);
+        else if(prop === 'position' && typeof value === 'string')
+            setPosition(value);
+        else if(prop === 'age' && typeof value === 'number')
+            setAge(value);
+        else if(prop === 'level' && value === 1 || value === 2 || value === 3 ||value === 4 || value === 5)
+            setLevel(value);
+    }
+
+    function onlyCharSpace(value:string){
+        for (var i = 0; i < value.length; i++) {
+            if(value[i] != " ")
+                return false;
+        }
+        return true;
+    }
+    
+    function validatePlayer(){
+        if(onlyCharSpace(name) || onlyCharSpace(imgUrl) || onlyCharSpace(position))
+            dispatch(changePopUp(true,"Error","Unable to edit player","Fill in the fields correctly"))
+        else{
+            confirm({
+                imgUrl:imgUrl,
+                age:age,
+                level:level,
+                name:name,
+                position:position
+            })
+            toggleModal();
+        }
+    }
+
+    return(
+        <div className="overlay">
+            <div className="modal">
+                <header className="header">
+                    <div className="getout" onClick={toggleModal}>
+                        <img src={iconClose} alt="" />
+                    </div>
+                    <span className="title">{title}</span>
+                </header>
+                <main className="form">
+                    <div className="info">
+                        <span className="title">Enter player name: </span>
+                        <input type="text" name="" id="" className="inputForm" 
+                            value={name} 
+                            onChange={(e:any)=>changeInfoPlayer("name",e.target.value)}/>
+                    </div>
+                    <div className="info">
+                        <span className="title">Enter player photo URL:</span>
+                        <input type="text" name="" id="" className="inputForm" 
+                            value={imgUrl} 
+                            onChange={(e:any)=>changeInfoPlayer("imgUrl",e.target.value)}/>
+                    </div>
+                    <div className="info">
+                        <span className="title">Enter player position: </span>
+                        <input type="text" name="" id="" className="inputForm" 
+                            value={position} 
+                            onChange={(e:any)=>changeInfoPlayer("position",e.target.value)}/>
+                    </div>
+                    <div className="info">
+                        <span className="title">Enter player age: </span>
+                        <input type="number" name="" id="" className="inputForm" min={15} max={100}
+                            value={age} 
+                            onChange={(e:any)=>changeInfoPlayer("age",parseInt(e.target.value))}/>
+                    </div>
+                    <div className="info">
+                        <span className="title">Enter player level:</span>
+                        <select name="select" className="inputForm" id="selectStars" 
+                            value={level} 
+                            onInput={(e:any)=>changeInfoPlayer("level",parseInt(e.target.value))} >
                             <option value="1" selected={isSelected("1")}>1 star</option>
                             <option value="2" selected={isSelected("2")}>2 stars</option>
                             <option value="3" selected={isSelected("3")}>3 stars</option>

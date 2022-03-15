@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { PlayerCard } from "../../components/PlayerCard/PlayerCard";
 import { RootState } from '../../store/storeConfig';
-import ModalAddPlayer from '../../components/Modal/Modal';
+import ModalAddPlayer, { ModalEditPlayer } from '../../components/Modal/Modal';
 
 import plusIcon from '../../assets/plus.svg'
 
@@ -23,13 +23,22 @@ export function Home(){
     const dispatch = useDispatch();
     const authState:any = useSelector<RootState>(state => state.auth);
 
-    const [modalIsOn, setModalIsOn] = useState(false);
+    const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
+    const [modalEditIsOn, setModalEditIsOn] = useState(false);
 
-    function toggleModal(){
-        if(modalIsOn === true){
-            setModalIsOn(false);
+    function toggleModalCreate(){
+        if(modalCreateIsOn === true){
+            setModalCreateIsOn(false);
         }else{
-            setModalIsOn(true);
+            setModalCreateIsOn(true);
+        }
+    }
+
+    function toggleModalEdit(){
+        if(modalEditIsOn === true){
+            setModalEditIsOn(false);
+        }else{
+            setModalEditIsOn(true);
         }
     }
 
@@ -47,8 +56,8 @@ export function Home(){
     
     return(
         <div className="homeContainer">
-            {modalIsOn && (
-                <ModalAddPlayer toggleModal={toggleModal} 
+            {modalCreateIsOn && (
+                <ModalAddPlayer toggleModal={toggleModalCreate} 
                                 confirm={createPlayer} 
                                 actionButton="Create"
                                 title="Creating a player"
@@ -65,28 +74,28 @@ export function Home(){
 
             <div className="playerCards">
                 
-                <PlayerCard age={22} level={4} name='Vitinho' position="MC" 
+                <PlayerCard age={22} level={4} name='Vitinho' position="MC"
                     imgUrl="http://4.bp.blogspot.com/_i-KuDcuQjJE/TL2j2aCHpXI/AAAAAAAAAeg/e7e8GF2gy38/s1600/vitinho_picnik.jpg"/>
                 
-                <PlayerCard age={30} level={5} name='Neymar Jr' position="PE" 
+                <PlayerCard age={30} level={5} name='Neymar Jr' position="PE"
                     imgUrl="https://www.ofutebolero.com.br/__export/1623535297137/sites/elfutboleromx/img/2021/06/12/neymar-brasil-argentina-16-10-2018_16iqsksvwzw5w107ek63d4fnst.jpg_1720385577.jpg" />
 
-                <PlayerCard age={30} level={5} name='Neymar Jr' position="PE" 
+                <PlayerCard age={30} level={5} name='Neymar Jr' position="PE"
                     imgUrl="https://www.ofutebolero.com.br/__export/1623535297137/sites/elfutboleromx/img/2021/06/12/neymar-brasil-argentina-16-10-2018_16iqsksvwzw5w107ek63d4fnst.jpg_1720385577.jpg" />
                 
-                <PlayerCard age={30} level={5} name='Neymar Jr' position="PE" 
+                <PlayerCard age={30} level={5} name='Neymar Jr' position="PE"
                     imgUrl="https://www.ofutebolero.com.br/__export/1623535297137/sites/elfutboleromx/img/2021/06/12/neymar-brasil-argentina-16-10-2018_16iqsksvwzw5w107ek63d4fnst.jpg_1720385577.jpg" />
                 
-                <button className="button-addPlayer" onClick={toggleModal}>
+                <button className="button-addPlayer" onClick={toggleModalCreate}>
                     <span> Create a new player</span>
                     <img src={plusIcon} alt="" />
                 </button>
 
             </div>
 
-            <div className='pagination' onClick={searchMorePlayers} >
+            {/* <div className='pagination' onClick={searchMorePlayers} >
                 <span>Click here to search more</span>
-            </div>
+            </div> */}
             
         </div>
     )

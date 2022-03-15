@@ -1,5 +1,8 @@
+import { useState } from "react";
 import logoStar from '../../assets/star.svg';
 import { IconEdit } from '../../assets/components/iconEdit';
+import { ModalEditPlayer } from '../../components/Modal/Modal';
+
 import './PlayerCard.scss';
 
 type IPlayerProps = {
@@ -12,6 +15,20 @@ type IPlayerProps = {
 
 
 export function PlayerCard({imgUrl,name,age,position,level}:IPlayerProps){
+
+    const [modalEditIsOn, setModalEditIsOn] = useState(false);
+
+    function toggleModalEdit(){
+        if(modalEditIsOn === true){
+            setModalEditIsOn(false);
+        }else{
+            setModalEditIsOn(true);
+        }
+    }
+
+    function editPlayer(player:IPlayerProps){
+        console.log("Editando o jogador",player)
+    }
 
     function mountStars(){
         let aux = 0;
@@ -30,8 +47,18 @@ export function PlayerCard({imgUrl,name,age,position,level}:IPlayerProps){
 
     return(
         <div className='playerCard'>
+            {modalEditIsOn && (
+                <ModalEditPlayer toggleModal={toggleModalEdit} 
+                                confirm={editPlayer} 
+                                actionButton="Edit"
+                                title="Editing the player"
+                                player={
+                                    {imgUrl,name,age,position,level}
+                                }
+                />
+            )}
             <img className='photoPlayer' src={imgUrl} alt="Player photo" />
-            <IconEdit color='white' width={"1.5rem"} height={"1.5rem"}/>
+            <i onClick={toggleModalEdit}> <IconEdit color='white' width={"1.5rem"} height={"1.5rem"}/> </i>
             <div className='infoPlayer'>
                 <h2>{name}</h2>
                 <h3>{age} years</h3>
