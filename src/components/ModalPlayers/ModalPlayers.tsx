@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import iconClose from "../../assets/close.svg";
 import { changePopUp } from "../../store/PopUp/popUp.action";
-import { RootState } from "../../store/storeConfig";
-import './Modal.scss';
+import './ModalPlayers.scss';
 
 type IPlayerProps = {
     imgUrl:string
@@ -11,6 +10,7 @@ type IPlayerProps = {
     age: number
     position: string
     level: 1 | 2 | 3 | 4 | 5
+    id:number
 }
 type IModalAdd = {
     toggleModal:() => void;
@@ -77,7 +77,8 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAdd) => {
                 age:newAge,
                 level:newLevel,
                 name:newName,
-                position:newPosition
+                position:newPosition,
+                id:5
             })
             toggleModal();
         }
@@ -149,6 +150,7 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
     const [position,setPosition] = useState<string>(player.position);
     const [age,setAge] = useState<number>(player.age);
     const [level,setLevel] = useState<1|2|3|4|5>(player.level);
+    const id = player.id;
 
     function isSelected(value:any){
         if(value === level)
@@ -187,7 +189,8 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
                 age:age,
                 level:level,
                 name:name,
-                position:position
+                position:position,
+                id:id
             })
             toggleModal();
         }

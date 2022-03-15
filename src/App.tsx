@@ -11,6 +11,7 @@ import {changeUser} from "./store/Auth/auth.action"
 import PopUp from './components/PopUp/PopUp';
 import { changePopUp } from './store/PopUp/popUp.action';
 import Footer from './components/Footer/Footer';
+import { Teams } from './pages/Teams/Teams';
 
 import "./App.scss"
 
@@ -79,7 +80,7 @@ function App() {
       <Route path="/teams">
         <div className='pageTeams'>
           <Menu/>
-          <div>TEAMS</div>
+          <Teams/>
           <Footer/> 
         </div>
       </Route>

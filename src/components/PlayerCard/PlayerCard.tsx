@@ -1,11 +1,12 @@
 import { useState } from "react";
 import logoStar from '../../assets/star.svg';
 import { IconEdit } from '../../assets/components/iconEdit';
-import { ModalEditPlayer } from '../../components/Modal/Modal';
+import { ModalEditPlayer } from '../ModalPlayers/ModalPlayers';
 
 import './PlayerCard.scss';
 
 type IPlayerProps = {
+    id:number
     imgUrl:string
     name: string
     age: number
@@ -14,7 +15,7 @@ type IPlayerProps = {
 }
 
 
-export function PlayerCard({imgUrl,name,age,position,level}:IPlayerProps){
+export function PlayerCard({imgUrl,name,age,position,level,id}:IPlayerProps){
 
     const [modalEditIsOn, setModalEditIsOn] = useState(false);
 
@@ -53,7 +54,7 @@ export function PlayerCard({imgUrl,name,age,position,level}:IPlayerProps){
                                 actionButton="Edit"
                                 title="Editing the player"
                                 player={
-                                    {imgUrl,name,age,position,level}
+                                    {imgUrl,name,age,position,level,id}
                                 }
                 />
             )}
