@@ -5,8 +5,32 @@ import { TeamCard } from '../../components/TeamCard/TeamCard';
 import teams from '../../assets/jsons/teams.json'
 
 import './Teams.scss';
+import { useState } from 'react';
+import ModalAddTeam from '../../components/ModalTeams/ModalTeams';
+
+type ITeamProps = {
+    id: number
+    idPlayers: Array<number>
+    name: string
+    idCaptain: number
+}
 
 export function Teams(){
+
+    const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
+
+    function toggleModalCreate(){
+        if(modalCreateIsOn === true){
+            setModalCreateIsOn(false);
+        }else{
+            setModalCreateIsOn(true);
+        }
+    }
+
+    function createTeam(team:ITeamProps){
+        console.log("Criando ", team );
+        // dispatch(changePopUp(false,"","",""));
+    }
 
     function searchTeamByName(teamName:string){
         console.log("Pesquisando ", teamName );
@@ -28,13 +52,12 @@ export function Teams(){
 
     return(
         <div className="teamsContainer">
-            {/* {modalCreateIsOn && (
-                <ModalAddPlayer toggleModal={toggleModalCreate} 
-                                confirm={createPlayer} 
-                                actionButton="Create"
-                                title="Creating a player"
+
+            {modalCreateIsOn && (
+                <ModalAddTeam toggleModal={toggleModalCreate} 
+                                confirm={createTeam}
                 />
-            )} */}
+            )}
 
             <div className='searchTeam'>
                 <span>Search teams by name:</span>
@@ -46,7 +69,7 @@ export function Teams(){
 
             <div className="teamsCards">
                 {mountTeams()}
-                <button className="button-addTeam"/*  onClick={toggleModalCreate} */>
+                <button className="button-addTeam" onClick={toggleModalCreate}>
                     <span> Create a new team</span>
                     <img src={plusIcon} alt="" />
                 </button>

@@ -7,15 +7,7 @@ import players from '../../assets/jsons/players.json'
 
 import './TeamCard.scss';
 import { IconDelete } from "../../assets/components/iconDelete";
-
-type IPlayerProps = {
-    imgUrl:string
-    name: string
-    age: number
-    position: string
-    level: 1 | 2 | 3 | 4 | 5
-    id:number
-}
+import { ModalDeleteTeam } from "../ModalTeams/ModalTeams";
 
 type ITeamProps = {
     id: number
@@ -26,6 +18,7 @@ type ITeamProps = {
 
 export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
 
+    const [modalDeleteIsOn, setModalDeleteIsOn] = useState(false);
     /* const [modalEditIsOn, setModalEditIsOn] = useState(false);
 
     function toggleModalEdit(){
@@ -36,8 +29,22 @@ export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
         }
     } */
 
+    function toggleModalDelete(){
+        if(modalDeleteIsOn === true){
+            setModalDeleteIsOn(false);
+        }else{
+            setModalDeleteIsOn(true);
+        }
+    }
+
     function editTeam(team:ITeamProps){
         console.log("Editando o time",team)
+        // toggleModalEdit();
+    }
+
+    function deleteTeam(){
+        console.log("deletando o team de id",id);
+        toggleModalDelete();
     }
 
     function mountStars(){
@@ -97,17 +104,24 @@ export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
                                 }
                 />
             )} */}
+
+            {modalDeleteIsOn && (
+                <ModalDeleteTeam toggleModal={toggleModalDelete} 
+                                confirm={deleteTeam} 
+                                idTeam={id} nameTeam={name}
+                />
+            )}
+
+            <i onClick={toggleModalDelete} className="delete"> 
+                <IconDelete color='#009000' width={"3rem"} height={"3rem"}/> 
+            </i>
+
             <div className="initCard">
-                <div className="nameIcons">
+                <div className="nameIcon">
                     <h1>#{id} - {name}</h1>
-                    <div className="icons">
-                        <i /* onClick={toggleModalEdit} */ className="delete"> 
-                            <IconDelete color='#009000' width={"3rem"} height={"3rem"}/> 
-                        </i>
-                        <i /* onClick={toggleModalEdit} */ className="edit"> 
-                            <IconEdit color='#009000' width={"1.8rem"} height={"1.8rem"}/> 
-                        </i>
-                    </div>
+                    <i /* onClick={toggleModalEdit} */ className="edit"> 
+                        <IconEdit color='#009000' width={"1.8rem"} height={"1.8rem"}/> 
+                    </i>
                 </div>
                 <h3>{mountStars()}</h3>
             </div>

@@ -22,7 +22,6 @@ export function PlayerCard({imgUrl,name,age,position,level,id,isCaptain,WithinAT
 
     const [modalEditIsOn, setModalEditIsOn] = useState(false);
     const [modalDeleteIsOn, setModalDeleteIsOn] = useState(false);
-    // const [playerToBeDeleted, setPlayerToBeDeleted] = useState<IPlayerProps>();
 
     function toggleModalEdit(){
         if(modalEditIsOn === true){
@@ -42,11 +41,13 @@ export function PlayerCard({imgUrl,name,age,position,level,id,isCaptain,WithinAT
 
 
     function editPlayer(player:IPlayerProps){
-        console.log("Editando o jogador",player)
+        console.log("Editando o jogador",player);
+        toggleModalEdit();
     }
 
     function deletePlayer(){
         console.log("deletando o jogador de id",id);
+        toggleModalDelete();
     }
 
     function mountStars(){

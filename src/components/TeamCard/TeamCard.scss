@@ -1,13 +1,21 @@
 .teamCard{
     background: #93bf85;
     border: 1px solid black;
-    z-index: 0;
     width: 90vw;
     min-height: 26rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0.5rem 0.5rem;
+
+    .delete{
+        height: 0.5rem;
+        position: relative;
+        margin-left: auto;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+    }
 
     .initCard{
         min-height: 5rem;
@@ -18,7 +26,7 @@
         align-items: center;
         justify-content: center;
 
-        .nameIcons{
+        .nameIcon{
             color: #009000;
 
             display: flex;
@@ -27,36 +35,17 @@
             padding-top: 0.8rem;
             height: 3rem;
 
-            .icons{
-                display: flex;
-                flex-direction: row-reverse;
-                align-items: center;
-                margin-top: 1rem;
                 
-                .delete, .edit{
-                    position: relative;
-                    top:0.15rem;
-                    margin: 0.5rem;
+            .edit{
+                position: relative;
+                margin: 0;
+                left: 1rem;
 
-                    >svg{
-                        cursor: pointer;
-                    }
+                >svg{
+                    cursor: pointer;
                 }
-
-                .delete{
-                    top: -0.5rem;
-                    left: 27rem;
-                }
-
-                .edit{
-                    margin: 0;
-                    top: -0.5rem;
-                    left: 1rem;
-                }
-
-
             }
-            
+
         }
 
         h3{

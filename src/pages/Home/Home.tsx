@@ -9,6 +9,7 @@ import plusIcon from '../../assets/plus.svg'
 import players from '../../assets/jsons/players.json'
 
 import './Home.scss';
+import { changePopUp } from '../../store/PopUp/popUp.action';
 
 
 type IPlayerProps = {
@@ -21,8 +22,8 @@ type IPlayerProps = {
 }
 
 export function Home(){
-    /* const dispatch = useDispatch();
-    const authState:any = useSelector<RootState>(state => state.auth); */
+    const dispatch = useDispatch();
+    // const authState:any = useSelector<RootState>(state => state.auth);
 
     const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
 
@@ -36,6 +37,7 @@ export function Home(){
 
     function createPlayer(player:IPlayerProps){
         console.log("Criando ", player );
+        dispatch(changePopUp(false,"","",""));
     }
 
     function searchPlayerByName(playerName:string){
