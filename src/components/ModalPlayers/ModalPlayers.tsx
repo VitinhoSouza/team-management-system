@@ -122,19 +122,19 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAdd) => {
                     <div className="info">
                         <span className="title">Enter player age: </span>
                         <input type="number" name="" id="" className="inputForm" min={15} max={100}
-                            value={newAge} 
+                            value={newAge}
                             onChange={(e:any)=>changeInfoNewPlayer("age",parseInt(e.target.value))}/>
                     </div>
                     <div className="info">
                         <span className="title">Enter player level:</span>
                         <select name="select" className="inputForm" id="selectStars" 
-                            value={newLevel} 
+                            value={newLevel}
                             onInput={(e:any)=>changeInfoNewPlayer("level",parseInt(e.target.value))} >
-                            <option value="1" selected={isSelected("1")}>1 star</option>
-                            <option value="2" selected={isSelected("2")}>2 stars</option>
-                            <option value="3" selected={isSelected("3")}>3 stars</option>
-                            <option value="4" selected={isSelected("4")}>4 stars</option>
-                            <option value="5" selected={isSelected("5")}>5 stars</option>
+                            <option value="1">1 star</option>
+                            <option value="2" >2 stars</option>
+                            <option value="3" >3 stars</option>
+                            <option value="4" >4 stars</option>
+                            <option value="5" >5 stars</option>
                         </select>
                     </div>
                 </main>
