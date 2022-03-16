@@ -18,7 +18,7 @@ type ITeamProps = {
 export function Teams(){
 
     const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
-
+    
     function toggleModalCreate(){
         if(modalCreateIsOn === true){
             setModalCreateIsOn(false);

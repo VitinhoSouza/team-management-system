@@ -23,7 +23,6 @@ type IPlayerProps = {
 
 export function Home(){
     const dispatch = useDispatch();
-    // const authState:any = useSelector<RootState>(state => state.auth);
 
     const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
 

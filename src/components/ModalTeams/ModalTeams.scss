@@ -16,10 +16,10 @@
 .modalTeam{
 
     width: 25rem;
-    height: 20rem;
+    height: 25rem;
     background: #0d730d;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
     color: white;
@@ -27,20 +27,21 @@
 
     .header{
         width: 100%;
-        height: 20%;
+        height: 2rem;
         text-align: center;
 
         .getout{
-            cursor: pointer;
             position: relative;
             left: 11rem;
             top:1rem;
 
             >img{
+                cursor: pointer;
             }
         }
 
         .title{
+            top: -1rem;
             font-size: 1.43rem;
             font-weight: 300;
             text-align: center;
@@ -49,7 +50,6 @@
 
     .form{
         width: 92%;
-        height: 60%;
         margin-left: 0.3rem;
         border-top: 0.0715rem solid var(--Quartz-White);
         border-bottom: 0.0715rem solid var(--Quartz-White);
@@ -59,6 +59,7 @@
         align-items: center;
 
         .info{
+            display: flex;
             .title{
 
             }
@@ -69,20 +70,48 @@
 
             #inputForPlayers{
 
-                .valuesSelected{
-                    width: 10rem;
-                    height: 2rem;
+                .multiselect {
+                    width: 8rem;
+                    background-color: white; /* 93bf85 */
+                    color: black;
+                  }
+                  
+                  .selectBox {
                     position: relative;
-                    top: -1rem;
-                    margin-left: auto;
-                    border: 1px solid black;
-                    color: #0000cc;
-                    span{
-                        width: 10rem;
-                        height: 2rem;
-                        color: yellow;
+                    >select{
+                        height: 1.5rem;
                     }
-                }
+                  }
+                  
+                  .selectBox select {
+                    width: 100%;
+                  }
+                  
+                  .overSelect {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                  }
+                  
+                  #checkboxes {
+                    display: none;
+                    border: 1px #dadada solid;
+    
+                    .checkboxPlayers{
+                        margin-right: 0.2rem;
+                    }
+                    
+                  }
+                  
+                  #checkboxes label {
+                    display: block;
+                  }
+                  
+                  #checkboxes label:hover {
+                    background-color: #1e90ff;
+                  }
             }
 
             #selectCaptain{
@@ -102,8 +131,7 @@
 
     .buttonsModal-component{
         width: 100%;
-        height: 20%;
-        margin-top:1rem;
+        height: 5rem;
         display: flex;
         justify-content: space-around;
 
@@ -138,14 +166,17 @@
 }
 
 #modalDelete{
-    height: 15rem;
+    height: 13rem;
 
     .form{
         text-align: center;
         height: 7rem;
+        margin-top: 1.5rem;
     }
 
     .buttonsModal-component{
+
+        margin-top: 0.5rem;
 
         :last-child{
             width: 8rem;
@@ -158,5 +189,21 @@
         :last-child:hover{
             background-color: #cc0000;
         }
+    }
+}
+
+#modalCreateTeam{
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    overflow-y: auto; /* Add vertical scrollbar */
+    .header{
+        margin-top: -1rem;
+    }
+    .form{
+        .info{
+            margin-top: 0.2rem;
+        }
+    }
+    .buttonsModal-component{
+        height: 2rem;
     }
 }

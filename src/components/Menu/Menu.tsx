@@ -12,11 +12,6 @@ import "./Menu.scss"
 
 export function Menu () {
 
-    const dispatch = useDispatch();
-    const authState:any = useSelector<RootState>(state => state.auth);
-
-    /* const {setNavActive,setSearchByIdActive} = useContext(Context);
-    const {setAuth} = useContext(AuthContext); */
     const [modalIsOn, setModalIsOn] = useState(false);
 
     function toggleModal(){
@@ -26,15 +21,6 @@ export function Menu () {
             setModalIsOn(true);
         }
     }
-
-    /* function activeProducts(){
-        setNavActive("products");
-        setSearchByIdActive(false);
-    }
-    function activeCategories(){
-        setNavActive("categories");
-        setSearchByIdActive(false);
-    } */
 
     function tryLogout(){
         auth.signOut()

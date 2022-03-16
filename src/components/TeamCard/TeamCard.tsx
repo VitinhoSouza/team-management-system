@@ -1,13 +1,12 @@
 import { useState } from "react";
 import logoStar from '../../assets/star.svg';
 import { IconEdit } from '../../assets/components/iconEdit';
+import { IconDelete } from "../../assets/components/iconDelete";
+import { ModalDeleteTeam, ModalEditTeam } from "../ModalTeams/ModalTeams";
 import { PlayerCard } from "../../components/PlayerCard/PlayerCard";
-import players from '../../assets/jsons/players.json'
-// import { ModalEditPlayer } from '../ModalPlayers/ModalPlayers';
+import players from '../../assets/jsons/players.json';
 
 import './TeamCard.scss';
-import { IconDelete } from "../../assets/components/iconDelete";
-import { ModalDeleteTeam } from "../ModalTeams/ModalTeams";
 
 type ITeamProps = {
     id: number
@@ -19,7 +18,7 @@ type ITeamProps = {
 export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
 
     const [modalDeleteIsOn, setModalDeleteIsOn] = useState(false);
-    /* const [modalEditIsOn, setModalEditIsOn] = useState(false);
+    const [modalEditIsOn, setModalEditIsOn] = useState(false);
 
     function toggleModalEdit(){
         if(modalEditIsOn === true){
@@ -27,7 +26,7 @@ export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
         }else{
             setModalEditIsOn(true);
         }
-    } */
+    }
 
     function toggleModalDelete(){
         if(modalDeleteIsOn === true){
@@ -39,7 +38,7 @@ export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
 
     function editTeam(team:ITeamProps){
         console.log("Editando o time",team)
-        // toggleModalEdit();
+        toggleModalEdit();
     }
 
     function deleteTeam(){
@@ -94,16 +93,14 @@ export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
 
     return(
         <div className='teamCard'>
-            {/* {modalEditIsOn && (
-                <ModalEditPlayer toggleModal={toggleModalEdit} 
-                                confirm={editPlayer} 
-                                actionButton="Edit"
-                                title="Editing the player"
-                                player={
-                                    {imgUrl,name,age,position,level}
+            {modalEditIsOn && (
+                <ModalEditTeam toggleModal={toggleModalEdit} 
+                                confirm={editTeam} 
+                                team={
+                                    {id,idPlayers,name,idCaptain}
                                 }
                 />
-            )} */}
+            )}
 
             {modalDeleteIsOn && (
                 <ModalDeleteTeam toggleModal={toggleModalDelete} 
@@ -119,7 +116,7 @@ export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
             <div className="initCard">
                 <div className="nameIcon">
                     <h1>#{id} - {name}</h1>
-                    <i /* onClick={toggleModalEdit} */ className="edit"> 
+                    <i onClick={toggleModalEdit} className="edit"> 
                         <IconEdit color='#009000' width={"1.8rem"} height={"1.8rem"}/> 
                     </i>
                 </div>

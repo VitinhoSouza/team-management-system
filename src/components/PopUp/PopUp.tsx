@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useState } from 'react';
-import './PopUp.scss';
 
 import {IconClose} from '../../assets/components/iconClose';
 import {IconAlert} from '../../assets/components/iconAlert';
 import {IconSuccess} from '../../assets/components/iconSuccess';
 
-// import { IconAlert, IconSuccess } from '../../assets/components';
+import './PopUp.scss';
 
 interface IPopUp {
     isVisible: true | false
@@ -17,15 +15,6 @@ interface IPopUp {
 }
 
 const PopUp: React.FC<IPopUp> = ({isVisible,functionClosePopUp,type,message,submessage}: IPopUp) => {
-
-    /* const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (isVisible)
-            setPopUpVisible(true)
-        else
-            setPopUpVisible(false)
-    }, [isVisible]) */
 
     useEffect(()=>{
         if(isVisible){
