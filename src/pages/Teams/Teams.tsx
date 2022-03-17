@@ -36,7 +36,7 @@ export function Teams(){
         console.log("Pesquisando ", teamName );
     }
 
-    function mountTeams(){
+    function mountTeams(name?:string){
         return(
             teams.map((team:any) => {
                 return <TeamCard 
@@ -44,6 +44,7 @@ export function Teams(){
                             idCaptain={team.idCaptain}
                             name={team.name}
                             idPlayers={team.idPlayers}
+                            key={`${team.id}_key`}
                         />
             })
             

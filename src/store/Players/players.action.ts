@@ -5,3 +5,10 @@ export const changePlayers = (players:Array<any>) => {
         payload: players
     }
 }
+
+export const getPlayers = () => {
+
+    return {
+        type: 'getPlayersSaga'
+    }
+}

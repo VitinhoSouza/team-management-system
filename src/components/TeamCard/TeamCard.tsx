@@ -82,6 +82,7 @@ export function TeamCard({id,idPlayers,name,idCaptain}:ITeamProps){
                                 level={player.level} name={player.name} 
                                 position={player.position}
                                 isCaptain={isCaptain} WithinATeam={true}
+                                key={player.id}
                             />
                         )
                 )

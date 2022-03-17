@@ -76,7 +76,7 @@ function App() {
       <Route path="/home">
         <div className='pageHome'>
           <Menu/>
-          <Home playersState={playersState}/>
+          <Home/>
           <Footer/> 
         </div>
       </Route>

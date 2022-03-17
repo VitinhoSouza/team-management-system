@@ -4,16 +4,14 @@ import { useEffect, useState } from 'react';
 import { PlayerCard } from "../../components/PlayerCard/PlayerCard";
 import { RootState } from '../../store/storeConfig';
 import ModalAddPlayer from '../../components/ModalPlayers/ModalPlayers';
-
-import plusIcon from '../../assets/plus.svg'
-import players from '../../assets/jsons/players.json'
-
-import './Home.scss';
 import { changePopUp } from '../../store/PopUp/popUp.action';
 import { database } from '../../services/firebase';
-import { getDatabase, ref, child, get,onValue } from "firebase/database";
-import { changePlayers } from '../../store/Players/players.action';
+import { getDatabase, ref, child, get } from "firebase/database";
 
+import plusIcon from '../../assets/plus.svg';
+
+import './Home.scss';
+import { changeUser } from '../../store/Auth/auth.action';
 
 type IPlayerProps = {
     imgUrl:string
@@ -22,16 +20,26 @@ type IPlayerProps = {
     position: string
     level: 1 | 2 | 3 | 4 | 5
     id:number
+    uid?:any
 }
 
-type IHome = {
-    playersState: Array<IPlayerProps>
-}
-export function Home({playersState}:IHome){
+
+export function Home(){
+
     const dispatch = useDispatch();
     const userState:any = useSelector<RootState>(state => state.auth.user);
 
     const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
+    const [players,setPlayers] = useState<IPlayerProps[]>([]);
+
+    const sortArray = (a:any, b:any) => {
+        if (a.id > b.id) {
+          return 1;
+        } else if (a.id < b.id) {  
+          return -1;
+        }
+        return 0;
+    };
 
     function toggleModalCreate(){
         if(modalCreateIsOn === true){
@@ -41,29 +49,30 @@ export function Home({playersState}:IHome){
         }
     }
 
-    function createPlayer(player:IPlayerProps){
+    function createPlayerDB(player:IPlayerProps){
+        
         dispatch(changePopUp(false,"","",""));
 
         const dbRef = ref(getDatabase());
-        get(child(dbRef, `users/${userState.id}`)).then((result) => {
-            if(result.val() !== null && result.val().players !== undefined)
-                console.log("VER.ID",Object.keys(result.val().players).length);
-            let newIdPlayer = 
-                (result.val() !== null && result.val().players !== undefined && 
-                    Object.keys(result.val().players).length > 0) ? 
-                Object.keys(result.val().players).length + 1 : 1;
-            
+        get(child(dbRef, `users/${userState.id}/players`)).then((result) => {
+
+            let lastElement:any;
+            let newIdPlayer = 1;
+            if(result.val() !== null && Object.keys(result.val()).length > 0){ 
+                lastElement = Object.values(result.val())[ Object.values(result.val()).length -1];
+                newIdPlayer = lastElement.id + 1;
+            }
             const userRef = database.ref('users/'+userState.id+'/players');
             const firebaseUser = userRef.push({
                 imgUrl:player.imgUrl,
-                name: player.name,
+                name: player.name.toLocaleUpperCase(),
                 age: player.age,
                 position: player.position,
                 level: player.level,
                 id:newIdPlayer
             })
-            window.location.reload();
-            // getPlayerDB();
+            
+            dispatch(changeUser(userState.id,userState.name,userState.avatar));
         }).catch((error) => {
             console.error(error);
         });
@@ -71,45 +80,28 @@ export function Home({playersState}:IHome){
     }
 
     function searchPlayerByName(playerName:string){
-        console.log("Pesquisando ", playerName );
+        if(playerName !== ""){
+            let playersFound = players.filter(player => player.name.includes(playerName.toLocaleUpperCase()))
+            setPlayers(playersFound);
+        }else{
+            dispatch(changeUser(userState.id,userState.name,userState.avatar));
+        }
     }
 
-    /* function searchMorePlayers(){
+    /* function searchMorePlayers(value:string){
         console.log("Pesquisando mais..." );
     } */
-
-    async function getPlayerDB(){
-        let playersForUser:Array<any> = [];
-        const db = getDatabase();
-        const starCountRef = ref(db, `users/${userState.id}`);
-        await onValue(starCountRef, (result) => {
-            let playersAux2 = undefined;
-            if(result.val() !== null && result.val()?.players === undefined){
-                let playersAux:any = Object.entries(result.val())[0][1];
-                playersAux2 = Object.entries(playersAux);
-            }
-            let playersWithId:any = playersAux2 !== undefined ? playersAux2[0][1] : result.val()?.players;
-            let vexes = 0;
-            playersWithId !== null && playersWithId !== undefined &&
-                Object.entries(playersWithId).forEach((playerWithId:any) => {
-                    console.log("ELEMENTO ",vexes,playerWithId[1]);
-                    playersForUser.push(playerWithId[1])
-                    vexes += 1;
-                })
-            // console.log("SETANDO DEPOIS DE GET-->",Object.entries(playersWithId).length);
-            dispatch(changePlayers(playersForUser));
-        })
-    }
     
     function mountPlayers(){
         
-        console.log("MONTANDO");
         return(
-            playersState.map((player:IPlayerProps) => {
+            players.map((player:IPlayerProps) => {
                 return <PlayerCard 
                         age={player.age} id={player.id} imgUrl={player.imgUrl}
                         level={player.level} name={player.name} 
-                        position={player.position} key={`player#${player.id}`}
+                        position={player.position} 
+                        key={`player#${player.uid}`}
+                        uid={player.uid}
                     />
             })
             
@@ -117,19 +109,40 @@ export function Home({playersState}:IHome){
     }
 
     useEffect(()=>{
-        getPlayerDB();
-    },[])
+        if(userState.id !== undefined && userState.id !== ''){
+            let playersForUser:Array<IPlayerProps> = [];
+            const userRef = database.ref(`users/${userState.id}/`);
+            userRef.once('value',user =>{
+                let playersAux2 = undefined;
+                if(user.val() !== null && user.val()?.players === undefined){
+                    let playersAux:any = Object.entries(user.val())[0][1];
+                    playersAux2 = Object.entries(playersAux);
+                }
+                let playersWithId:any = playersAux2 !== undefined ? playersAux2[0][1] : user.val()?.players;
+                playersWithId !== null && playersWithId !== undefined &&
+                    Object.entries(playersWithId).forEach((playerWithId:any) => {
+                        playersForUser.push({
+                            uid:playerWithId[0],age:playerWithId[1].age,imgUrl:playerWithId[1].imgUrl,
+                            level:playerWithId[1].level,name:playerWithId[1].name,position:playerWithId[1].position,
+                            id:playerWithId[1].id,
+                        });
+                    })
+                
+                playersForUser.sort(sortArray);
+                setPlayers(playersForUser);
+            })
+            return ()=>{
+                userRef.off('value');
+            }
+        }
 
-    useEffect(()=>{
-        console.log("ALTEROU",playersState);
-        // mountPlayers();
-    },[playersState])
+    },[userState])
 
     return(
         <div className="homeContainer">
             {modalCreateIsOn && (
                 <ModalAddPlayer toggleModal={toggleModalCreate} 
-                                confirm={createPlayer} 
+                                confirm={createPlayerDB} 
                                 actionButton="Create"
                                 title="Creating a player"
                 />

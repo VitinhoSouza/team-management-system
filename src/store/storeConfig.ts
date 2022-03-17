@@ -1,4 +1,5 @@
 import { createStore, combineReducers} from 'redux'
+
 import authReducer from './Auth/auth.reducer'
 import popUpReducer from './PopUp/popUp.reducer'
 import playersReducer from './Players/players.reducer'

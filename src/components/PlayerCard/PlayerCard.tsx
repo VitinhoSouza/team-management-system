@@ -5,8 +5,15 @@ import { IconEdit } from '../../assets/components/iconEdit';
 import { ModalDeletePlayer, ModalEditPlayer } from '../ModalPlayers/ModalPlayers';
 
 import './PlayerCard.scss';
+import { child, get, getDatabase, ref } from "firebase/database";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/storeConfig";
+import { database } from "../../services/firebase";
+import { changeUser } from "../../store/Auth/auth.action";
+import { changePopUp } from "../../store/PopUp/popUp.action";
 
 type IPlayerProps = {
+    uid?:any
     id:number
     imgUrl:string
     name: string
@@ -18,10 +25,13 @@ type IPlayerProps = {
 }
 
 
-export function PlayerCard({imgUrl,name,age,position,level,id,isCaptain,WithinATeam}:IPlayerProps){
+export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,WithinATeam}:IPlayerProps){
 
     const [modalEditIsOn, setModalEditIsOn] = useState(false);
     const [modalDeleteIsOn, setModalDeleteIsOn] = useState(false);
+
+    const dispatch = useDispatch();
+    const userState:any = useSelector<RootState>(state => state.auth.user);
 
     function toggleModalEdit(){
         if(modalEditIsOn === true){
@@ -43,11 +53,37 @@ export function PlayerCard({imgUrl,name,age,position,level,id,isCaptain,WithinAT
     function editPlayer(player:IPlayerProps){
         console.log("Editando o jogador",player);
         toggleModalEdit();
+        
+        dispatch(changePopUp(false,"","",""));
+
+        deletePlayer();
+
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `users/${userState.id}/players`)).then((result) => {
+            const userRef = database.ref('users/'+userState.id+'/players');
+            const firebaseUser = userRef.push({
+                imgUrl:player.imgUrl,
+                name: player.name.toLocaleUpperCase(),
+                age: player.age,
+                position: player.position,
+                level: player.level,
+                id:player.id,
+                uid:uid
+            })
+            
+            dispatch(changeUser(userState.id,userState.name,userState.avatar));
+        }).catch((error) => {
+            console.error(error);
+        });
     }
 
-    function deletePlayer(){
-        console.log("deletando o jogador de id",id);
-        toggleModalDelete();
+    async function deletePlayer(){
+        const userRef = await database.ref(`users/${userState.id}/players/${uid}`).remove()
+        .then(() => {
+            dispatch(changeUser(userState.id,userState.name,userState.avatar));
+        }).catch((error) => {
+            console.error(error);
+        });
     }
 
     function mountStars(){
@@ -79,7 +115,7 @@ export function PlayerCard({imgUrl,name,age,position,level,id,isCaptain,WithinAT
             )}
 
             {modalDeleteIsOn && (
-                <ModalDeletePlayer toggleModal={toggleModalDelete} 
+                <ModalDeletePlayer toggleModal={()=>{toggleModalDelete();toggleModalDelete();}} 
                                 confirm={deletePlayer} 
                                 idPlayer={id} namePlayer={name}
                 />
