@@ -94,16 +94,38 @@
             left: 5rem;
         }
 
+        .userInfo{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            width: 8rem;
+            min-width: 3rem;
+
+            img{
+                width: 3rem;
+                height: 3rem;
+                border-radius: 50%;
+            }
+
+            span{
+                margin-left: 0.4rem;
+                color:white;
+                font-weight: 500;
+                font-size: 1rem;
+            }
+        }
+
         .navlink{
             height: 2.5rem;
             padding: 1rem 4rem;
             width: 2.5rem;
             text-decoration: none;
             cursor: pointer;
-            color:white;
-            vertical-align:20px !important;
+            color:white;/* 
+            vertical-align:20px !important; */
             display: flex;
             align-items: center;
+            justify-content: center;
             border-left: solid 1px black;
 
             &.active{
@@ -117,8 +139,8 @@
             }
 
             >span{
-                margin-left: -1rem;
                 font-size: 1.7rem;
+                text-align: center !important;
             }
 
         }
@@ -145,7 +167,7 @@
 
 }
 
-@media (max-width: 750px)
+@media (max-width: 870px)
 {
   .soccerBall-menu
    {
@@ -155,7 +177,7 @@
    }
 }
 
-@media (max-width: 720px)
+@media (max-width: 830px)
 {
   .soccerBall-menu
    {
@@ -165,11 +187,56 @@
    }
 }
 
-@media (max-width: 700px)
+@media (max-width: 800px)
 {
   .soccerBall-menu
    {
     z-index: -1;
     background-color: aqua;
    }
+}
+
+@media (max-width: 610px)
+{
+    .userInfo{
+       
+        img{
+            width: 2rem !important;
+            height: 2rem !important;
+        }
+    
+        span{
+            font-size: 0.8rem !important;
+            text-align: center !important;
+        }
+    }
+
+    .navlink{
+        width: 0.7rem !important;
+        >span{
+            font-size: 1.5rem !important;
+        }
+    }
+}
+
+@media (max-width: 490px){
+    
+    .menu{
+        width: 28rem !important;
+    }
+    
+    .navlink{
+        padding: 1rem 3.7rem !important;
+        >span{
+            font-size: 1.2rem !important;
+        }
+    }
+
+    #last{
+
+        svg{
+            width: 1rem !important;
+            height: 1rem !important;
+        }
+    }
 }

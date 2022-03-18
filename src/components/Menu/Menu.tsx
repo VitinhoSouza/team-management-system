@@ -12,6 +12,8 @@ import "./Menu.scss"
 
 export function Menu () {
 
+    const userState:any = useSelector<RootState>(state => state.auth.user);
+
     const [modalIsOn, setModalIsOn] = useState(false);
 
     function toggleModal(){
@@ -51,9 +53,15 @@ export function Menu () {
 
             <nav className="menu">
                 <div className="start">
-                    <NavLink className="navlink" exact to="/home"><span>Players</span> </NavLink>
+                    <NavLink className="navlink" id="first" exact to="/home"> <span>Players</span> </NavLink>
                     <NavLink className="navlink" id="central" to="/teams"> <span>Teams</span> </NavLink>
                 </div>
+
+                <div className="userInfo">
+                    <img src={userState.avatar} alt={userState.name} />
+                    <span>{userState.name}</span>
+                </div>
+                
                 
                 <div className="navlink" id="last" onClick={toggleModal}>
                     <IconLogout width={"1.5rem"} height={"1.5rem"} color={"white"}/>

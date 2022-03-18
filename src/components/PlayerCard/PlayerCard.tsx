@@ -9,25 +9,11 @@ import { changePopUp } from "../../store/PopUp/popUp.action";
 import { IconDelete } from '../../assets/components/iconDelete';
 import { IconEdit } from '../../assets/components/iconEdit';
 import { ModalDeletePlayer, ModalEditPlayer } from '../ModalPlayers/ModalPlayers';
+import {IPlayerProps} from "../../utils";
 
 import logoStar from '../../assets/star.svg';
 
 import './PlayerCard.scss';
-
-
-
-type IPlayerProps = {
-    uid?:any
-    id:number
-    imgUrl:string
-    name: string
-    age: number
-    position: string
-    level: 1 | 2 | 3 | 4 | 5
-    isCaptain?:boolean
-    WithinATeam?:boolean
-}
-
 
 export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,WithinATeam}:IPlayerProps){
 
@@ -64,7 +50,7 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
         const dbRef = ref(getDatabase());
         get(child(dbRef, `users/${userState.id}/players`)).then((result) => {
             const userRef = database.ref('users/'+userState.id+'/players');
-            const firebaseUser = userRef.push({
+            userRef.push({
                 imgUrl:player.imgUrl,
                 name: player.name.toLocaleUpperCase(),
                 age: player.age,
@@ -83,7 +69,7 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
     }
 
     async function deletePlayer(){
-        const userRef = await database.ref(`users/${userState.id}/players/${uid}`).remove()
+        await database.ref(`users/${userState.id}/players/${uid}`).remove()
         .then(() => {
             dispatch(changeUser(userState.id,userState.name,userState.avatar));
             dispatch(changePopUp(true,"Success","The player was deleted.",""));
@@ -127,7 +113,7 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
                                 idPlayer={id} namePlayer={name}
                 />
             )}
-            <img className='photoPlayer' src={imgUrl} alt="Player photo" />
+            <img className='photoPlayer' src={imgUrl} alt="Player" />
        
             {WithinATeam === true ? (
                 <>

@@ -2,9 +2,11 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: red;
+    background-color: #009000;
 
     .footer{
         bottom: 0 !important;
     }
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    overflow-y: auto; /* Add vertical scrollbar */
 }

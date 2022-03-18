@@ -1,57 +1,20 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import iconClose from "../../assets/close.svg";
 import { changePopUp } from "../../store/PopUp/popUp.action";
+import {IModalAddPlayers, IModalEditPlayers, IModalDeletePlayers} from "../../utils";
+
 import './ModalPlayers.scss';
 
-type IPlayerProps = {
-    imgUrl:string
-    name: string
-    age: number
-    position: string
-    level: 1 | 2 | 3 | 4 | 5
-    id:number
-}
-type IModalAdd = {
-    toggleModal:() => void;
-    confirm:(player:IPlayerProps) => void;
-    actionButton:string;
-    title:string;
-}
-
-type IModalEdit = {
-    toggleModal:() => void;
-    confirm:(player:IPlayerProps) => void;
-    actionButton:string;
-    title:string;
-    player:IPlayerProps;
-}
-
-type IModalDelete = {
-    toggleModal:() => void;
-    confirm:() => void;
-    idPlayer: number;
-    namePlayer: string;
-}
-
-
-
-const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAdd) => {
+const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAddPlayers) => {
 
     const dispatch = useDispatch();
-    // const popUpState:any = useSelector<RootState>(state => state.popUp);
 
     const [newName,setNewName] = useState<string>("");
     const [newImgUrl,setNewImgUrl] = useState<string>("");
     const [newPosition,setNewPosition] = useState<string>("");
     const [newAge,setNewAge] = useState<number>(15);
     const [newLevel,setNewLevel] = useState<1|2|3|4|5>(1);
-
-    function isSelected(value:any){
-        if(value === newLevel)
-            return true;
-        return false;
-    }
 
     function changeInfoNewPlayer(prop:string,value:string|number){
     
@@ -63,20 +26,12 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAdd) => {
             setNewPosition(value);
         else if(prop === 'age' && typeof value === 'number')
             setNewAge(value);
-        else if(prop === 'level' && value === 1 || value === 2 || value === 3 ||value === 4 || value === 5)
+        else if(prop === 'level' && (value === 1 || value === 2 || value === 3 ||value === 4 || value === 5))
             setNewLevel(value);
-    }
-
-    function onlyCharSpace(value:string){
-        for (var i = 0; i < value.length; i++) {
-            if(value[i] != " ")
-                return false;
-        }
-        return true;
     }
     
     function validatePlayer(){
-        if(onlyCharSpace(newName) || onlyCharSpace(newImgUrl) || onlyCharSpace(newPosition))
+        if(newName.trim() !== "" || newImgUrl.trim() !== ""  || newPosition.trim() !== "" )
             dispatch(changePopUp(true,"Error","Unable to create player","Fill in the fields correctly"))
         else{
             confirm({
@@ -147,10 +102,9 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAdd) => {
     )
 }
 
-export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:IModalEdit) => {
+export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:IModalEditPlayers) => {
 
     const dispatch = useDispatch();
-    // const popUpState:any = useSelector<RootState>(state => state.popUp);
 
     const [name,setName] = useState<string>(player.name);
     const [imgUrl,setImgUrl] = useState<string>(player.imgUrl);
@@ -158,12 +112,6 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
     const [age,setAge] = useState<number>(player.age);
     const [level,setLevel] = useState<1|2|3|4|5>(player.level);
     const id = player.id;
-
-    function isSelected(value:any){
-        if(value === level)
-            return true;
-        return false;
-    }
 
     function changeInfoPlayer(prop:string,value:string|number){
     
@@ -175,20 +123,12 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
             setPosition(value);
         else if(prop === 'age' && typeof value === 'number')
             setAge(value);
-        else if(prop === 'level' && value === 1 || value === 2 || value === 3 ||value === 4 || value === 5)
+        else if(prop === 'level' && (value === 1 || value === 2 || value === 3 ||value === 4 || value === 5))
             setLevel(value);
-    }
-
-    function onlyCharSpace(value:string){
-        for (var i = 0; i < value.length; i++) {
-            if(value[i] != " ")
-                return false;
-        }
-        return true;
     }
     
     function validatePlayer(){
-        if(onlyCharSpace(name) || onlyCharSpace(imgUrl) || onlyCharSpace(position))
+        if(name.trim() !== "" || imgUrl.trim() !== ""  || position.trim() !== "" )
             dispatch(changePopUp(true,"Error","Unable to edit player","Fill in the fields correctly"))
         else{
             confirm({
@@ -242,11 +182,11 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
                         <select name="select" className="inputForm" id="selectStars" 
                             value={level} 
                             onInput={(e:any)=>changeInfoPlayer("level",parseInt(e.target.value))} >
-                            <option value="1" selected={isSelected("1")}>1 star</option>
-                            <option value="2" selected={isSelected("2")}>2 stars</option>
-                            <option value="3" selected={isSelected("3")}>3 stars</option>
-                            <option value="4" selected={isSelected("4")}>4 stars</option>
-                            <option value="5" selected={isSelected("5")}>5 stars</option>
+                            <option value="1">1 star</option>
+                            <option value="2">2 stars</option>
+                            <option value="3">3 stars</option>
+                            <option value="4">4 stars</option>
+                            <option value="5">5 stars</option>
                         </select>
                     </div>
                 </main>
@@ -259,7 +199,7 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
     )
 }
 
-export const ModalDeletePlayer = ({toggleModal,confirm,idPlayer,namePlayer}:IModalDelete) => {
+export const ModalDeletePlayer = ({toggleModal,confirm,idPlayer,namePlayer}:IModalDeletePlayers) => {
 
 
     return(

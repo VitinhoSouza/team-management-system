@@ -8,21 +8,11 @@ import { RootState } from '../../store/storeConfig';
 import ModalAddPlayer from '../../components/ModalPlayers/ModalPlayers';
 import { changePopUp } from '../../store/PopUp/popUp.action';
 import { changeUser } from '../../store/Auth/auth.action';
+import { sortArray, IPlayerProps } from '../../utils';
 
 import plusIcon from '../../assets/plus.svg';
 
 import './Home.scss';
-
-type IPlayerProps = {
-    imgUrl:string
-    name: string
-    age: number
-    position: string
-    level: 1 | 2 | 3 | 4 | 5
-    id:number
-    uid?:any
-}
-
 
 export function Home(){
 
@@ -31,15 +21,6 @@ export function Home(){
 
     const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
     const [players,setPlayers] = useState<IPlayerProps[]>([]);
-
-    const sortArray = (a:any, b:any) => {
-        if (a.id > b.id) {
-          return 1;
-        } else if (a.id < b.id) {  
-          return -1;
-        }
-        return 0;
-    };
 
     function toggleModalCreate(){
         if(modalCreateIsOn === true){
@@ -56,13 +37,11 @@ export function Home(){
         const dbRef = ref(getDatabase());
         get(child(dbRef, `users/${userState.id}/players`)).then((result) => {
 
-            let lastElement:any;
             let newIdPlayer = 1;
-            if(result.val() !== null && Object.keys(result.val()).length > 0){ 
+            if(result.val() !== null && Object.keys(result.val()).length > 0)
                 newIdPlayer = players[players.length - 1].id + 1;
-            }
             const userRef = database.ref('users/'+userState.id+'/players');
-            const firebaseUser = userRef.push({
+            userRef.push({
                 imgUrl:player.imgUrl,
                 name: player.name.toLocaleUpperCase(),
                 age: player.age,

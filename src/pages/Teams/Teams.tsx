@@ -8,20 +8,11 @@ import { changePopUp } from '../../store/PopUp/popUp.action';
 import { changeUser } from '../../store/Auth/auth.action';
 import { TeamCard } from '../../components/TeamCard/TeamCard';
 import ModalAddTeam from '../../components/ModalTeams/ModalTeams';
+import { sortArray, ITeamProps } from '../../utils';
 
 import plusIcon from '../../assets/plus.svg'
 
 import './Teams.scss';
-
-
-
-type ITeamProps = {
-    uid?:any
-    id: number
-    idPlayers: Array<number>
-    name: string
-    idCaptain: number
-}
 
 export function Teams(){
 
@@ -30,15 +21,6 @@ export function Teams(){
 
     const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
     const [teams,setTeams] = useState<ITeamProps[]>([]);
-
-    const sortArray = (a:any, b:any) => {
-        if (a.id > b.id) {
-          return 1;
-        } else if (a.id < b.id) {  
-          return -1;
-        }
-        return 0;
-    };
 
     function toggleModalCreate(){
         if(modalCreateIsOn === true){
@@ -62,7 +44,7 @@ export function Teams(){
                 newIdTeam = lastElement.id + 1;
             }
             const userRef = database.ref('users/'+userState.id+'/teams');
-            const firebaseUser = userRef.push({
+            userRef.push({
                 id: newIdTeam,
                 idPlayers: team.idPlayers,
                 name: team.name,
@@ -88,7 +70,7 @@ export function Teams(){
 
     function mountTeams(){
         return(
-            teams.map((team:any) => {
+            teams.map((team:ITeamProps) => {
                 return <TeamCard 
                             id={team.id}
                             idCaptain={team.idCaptain}

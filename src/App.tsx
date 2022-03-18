@@ -12,17 +12,13 @@ import PopUp from './components/PopUp/PopUp';
 import { changePopUp } from './store/PopUp/popUp.action';
 import Footer from './components/Footer/Footer';
 import { Teams } from './pages/Teams/Teams';
-import { getDatabase, ref, child, get } from "firebase/database";
 
 import "./App.scss"
-import { changePlayers } from './store/Players/players.action';
 
 function App() {
 
   const dispatch = useDispatch();
   const popUpState:any = useSelector<RootState>(state => state.popUp);
-  const userState:any = useSelector<RootState>(state => state.auth.user);
-  const playersState:any = useSelector<RootState>(state => state.players.players);
 
   useEffect(()=>{
     const unsubscribe = auth.onAuthStateChanged(user =>{

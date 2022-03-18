@@ -6,48 +6,11 @@ import iconClose from "../../assets/close.svg";
 import { database } from "../../services/firebase";
 import { changePopUp } from "../../store/PopUp/popUp.action";
 import { RootState } from "../../store/storeConfig";
+import {sortArray, IPlayerProps, IModalAddTeam, IModalDeleteTeam, IModalEditTeam} from "../../utils";
 
 import './ModalTeams.scss';
 
-type ITeamProps = {
-    id: number
-    idPlayers: Array<number>
-    name: string
-    idCaptain: number
-}
-
-type IPlayerProps = {
-    imgUrl:string
-    name: string
-    age: number
-    position: string
-    level: 1 | 2 | 3 | 4 | 5
-    id:number
-    uid?:any
-}
-
-
-type IModalAdd = {
-    toggleModal:() => void;
-    confirm:(team:ITeamProps) => void;
-}
-
-type IModalEdit = {
-    toggleModal:() => void;
-    confirm:(team:ITeamProps) => void;
-    team:ITeamProps;
-}
-
-type IModalDelete = {
-    toggleModal:() => void;
-    confirm:() => void;
-    idTeam: number;
-    nameTeam: string;
-}
-
-
-
-const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
+const ModalAddTeam = ({toggleModal,confirm}:IModalAddTeam) => {
 
     const dispatch = useDispatch();
     const userState:any = useSelector<RootState>(state => state.auth.user);
@@ -58,15 +21,6 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
     const [expanded,setExpanded] = useState(false);
 
     const [players,setPlayers] = useState<IPlayerProps[]>([]);
-
-    const sortArray = (a:any, b:any) => {
-        if (a.id > b.id) {
-          return 1;
-        } else if (a.id < b.id) {  
-          return -1;
-        }
-        return 0;
-    };
 
     useEffect(()=>{
         if(userState.id !== undefined && userState.id !== ''){
@@ -150,21 +104,12 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
         }
     }
 
-    function onlyCharSpace(value:string){
-        for (var i = 0; i < value.length; i++) {
-            if(value[i] != " ")
-                return false;
-        }
-        return true;
-    }
-
     function transformInNumbers(idPlayers:Array<string>){
         return idPlayers.map((id:string) => parseInt(id));
     }
     
-
     function validateTeam(){
-        if(onlyCharSpace(newName) || newPlayers.length === 0)
+        if(newName.trim() !== ""|| newPlayers.length === 0)
             dispatch(changePopUp(true,"Error","Unable to create team","Fill in the fields correctly"))
         else if(!transformInNumbers(newPlayers).includes(newIdCaptain))
             dispatch(changePopUp(true,"Error","Unable to create team","The captain needs is among the players"));
@@ -181,7 +126,7 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
 
     function returnCheckedsPlayers(){
         let completedString:string = "";
-        players.map((player:any)=>{
+        players.forEach((player:IPlayerProps)=>{
             if(isSelectedPlayer(player.id.toString()))
                 if(completedString.length > 0)
                     completedString += ", "+player.name;
@@ -230,7 +175,7 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
                         <select name="select" className="inputForm" id="selectCaptain" 
                             value={newIdCaptain} 
                             onInput={(e:any)=>changeInfoNewTeam("idCaptain",parseInt(e.target.value))} >
-                            { players.map((player:any)=>{
+                            { players.map((player:IPlayerProps)=>{
                                 return <option value={player.id} selected={isSelectedCaptain(player.id)}>
                                             #{player.id} - {player.name}
                                         </option>
@@ -280,7 +225,7 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
     )
 }
 
-export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
+export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEditTeam) => {
 
     const dispatch = useDispatch();
     const userState:any = useSelector<RootState>(state => state.auth.user);
@@ -291,15 +236,6 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
     const [expanded,setExpanded] = useState(false);
 
     const [players,setPlayers] = useState<IPlayerProps[]>([]);
-
-    const sortArray = (a:any, b:any) => {
-        if (a.id > b.id) {
-          return 1;
-        } else if (a.id < b.id) {  
-          return -1;
-        }
-        return 0;
-    };
 
     useEffect(()=>{
         if(userState.id !== undefined && userState.id !== ''){
@@ -382,14 +318,6 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
         }
     }
 
-    function onlyCharSpace(value:string){
-        for (var i = 0; i < value.length; i++) {
-            if(value[i] != " ")
-                return false;
-        }
-        return true;
-    }
-
     function transformInNumber(idPlayers:Array<string>){
         return idPlayers.map((id:string) => parseInt(id));
     }
@@ -397,7 +325,7 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
     
 
     function validateTeam(){
-        if(onlyCharSpace(newName) || newPlayers.length === 0)
+        if(newName.trim() !== "" || newPlayers.length === 0)
             dispatch(changePopUp(true,"Error","Unable to edit team","Fill in the fields correctly"))
         else if(!transformInNumber(newPlayers).includes(newIdCaptain))
             dispatch(changePopUp(true,"Error","Unable to edit team","The captain needs is among the players"));
@@ -414,7 +342,7 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
 
     function returnCheckedsPlayers(){
         let completedString:string = "";
-        players.map((player:any)=>{
+        players.forEach((player:IPlayerProps)=>{
             if(isSelectedPlayer(player.id.toString()))
                 if(completedString.length > 0)
                     completedString += ", "+player.name;
@@ -464,7 +392,7 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
                         <select name="select" className="inputForm" id="selectCaptain" 
                             value={newIdCaptain} 
                             onInput={(e:any)=>changeInfoNewTeam("idCaptain",parseInt(e.target.value))} >
-                            { players.map((player:any)=>{
+                            { players.map((player:IPlayerProps)=>{
                                 return <option value={player.id} selected={isSelectedCaptain(player.id)}>
                                             #{player.id} - {player.name}
                                         </option>
@@ -517,7 +445,7 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
     )
 }
 
-export const ModalDeleteTeam = ({toggleModal,confirm,idTeam,nameTeam}:IModalDelete) => {
+export const ModalDeleteTeam = ({toggleModal,confirm,idTeam,nameTeam}:IModalDeleteTeam) => {
 
     return(
         <div className="overlayTeam">

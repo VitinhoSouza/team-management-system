@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { database } from "../../services/firebase";
+import { child, get, getDatabase, ref } from "firebase/database";
 
 import { RootState } from "../../store/storeConfig";
 import logoStar from '../../assets/star.svg';
@@ -8,31 +9,12 @@ import { IconEdit } from '../../assets/components/iconEdit';
 import { IconDelete } from "../../assets/components/iconDelete";
 import { ModalDeleteTeam, ModalEditTeam } from "../ModalTeams/ModalTeams";
 import { PlayerCard } from "../../components/PlayerCard/PlayerCard";
-
-import './TeamCard.scss';
 import { changeUser } from "../../store/Auth/auth.action";
 import { changePopUp } from "../../store/PopUp/popUp.action";
-import { child, get, getDatabase, ref } from "firebase/database";
+import { sortArray } from "../../utils";
+import {ITeamProps, IPlayerProps} from "../../utils";
 
-
-
-type ITeamProps = {
-    uid?:any
-    id: number
-    idPlayers: Array<number>
-    name: string
-    idCaptain: number
-}
-
-type IPlayerProps = {
-    imgUrl:string
-    name: string
-    age: number
-    position: string
-    level: 1 | 2 | 3 | 4 | 5
-    id:number
-    uid?:any
-}
+import './TeamCard.scss';
 
 export function TeamCard({id,idPlayers,name,idCaptain,uid}:ITeamProps){
 
@@ -43,15 +25,6 @@ export function TeamCard({id,idPlayers,name,idCaptain,uid}:ITeamProps){
     const [modalEditIsOn, setModalEditIsOn] = useState(false);
 
     const [players,setPlayers] = useState<IPlayerProps[]>([]);
-
-    const sortArray = (a:any, b:any) => {
-        if (a.id > b.id) {
-          return 1;
-        } else if (a.id < b.id) {  
-          return -1;
-        }
-        return 0;
-    };
 
     function toggleModalEdit(){
         if(modalEditIsOn === true){
@@ -79,7 +52,7 @@ export function TeamCard({id,idPlayers,name,idCaptain,uid}:ITeamProps){
         const dbRef = ref(getDatabase());
         get(child(dbRef, `users/${userState.id}/players`)).then((result) => {
             const userRef = database.ref('users/'+userState.id+'/teams');
-            const firebaseUser = userRef.push({
+            userRef.push({
                 id: team.id,
                 idPlayers: team.idPlayers,
                 name: team.name,
@@ -96,7 +69,7 @@ export function TeamCard({id,idPlayers,name,idCaptain,uid}:ITeamProps){
     }
 
     async function deleteTeam(){
-        const userRef = await database.ref(`users/${userState.id}/teams/${uid}`).remove()
+        await database.ref(`users/${userState.id}/teams/${uid}`).remove()
         .then(() => {
             dispatch(changeUser(userState.id,userState.name,userState.avatar));
             dispatch(changePopUp(true,"Success","The team was deleted.",""));
@@ -161,7 +134,7 @@ export function TeamCard({id,idPlayers,name,idCaptain,uid}:ITeamProps){
     function mountPlayers(){
         let isCaptain = false;
         return(
-            players.map((player:any) => {
+            players.map((player:IPlayerProps) => {
                 isCaptain =  idCaptain === player.id ? true : false;
                 return(
                     !(idPlayers.includes(player.id)) ? (<></>):
