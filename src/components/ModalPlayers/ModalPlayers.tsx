@@ -11,16 +11,16 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAddPlayer
     const dispatch = useDispatch();
 
     const [newName,setNewName] = useState<string>("");
-    const [newImgUrl,setNewImgUrl] = useState<string>("");
     const [newPosition,setNewPosition] = useState<string>("");
     const [newAge,setNewAge] = useState<number>(15);
     const [newLevel,setNewLevel] = useState<1|2|3|4|5>(1);
 
+    const [file, setFile] = useState<File | undefined>(undefined);
+    const [wrongFormat, setWrongFormat] = useState<Boolean>(false);
+
     function changeInfoNewPlayer(prop:string,value:string|number){
     
-        if(prop === 'imgUrl' && typeof value === 'string')
-            setNewImgUrl(value);
-        else if(prop === 'name' && typeof value === 'string')
+        if(prop === 'name' && typeof value === 'string')
             setNewName(value);
         else if(prop === 'position' && typeof value === 'string')
             setNewPosition(value);
@@ -31,20 +31,28 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAddPlayer
     }
     
     function validatePlayer(){
-        if(newName.trim() === "" || newImgUrl.trim() === ""  || newPosition.trim() === "" )
+        if(newName.trim() === "" || newPosition.trim() === "" || wrongFormat)
             dispatch(changePopUp(true,"Error","Unable to create player","Fill in the fields correctly"))
         else{
             confirm({
-                imgUrl:newImgUrl,
                 age:newAge,
                 level:newLevel,
                 name:newName,
                 position:newPosition,
-                id:5
+                id:5,
+                img:file
             })
             toggleModal();
         }
     }
+    
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        if (e?.target?.files) {    
+            if (e.target.files[0]) 
+                setFile(e.target.files[0]);
+            else setWrongFormat(true);
+        }
+    };
 
     return(
         <div className="overlay">
@@ -62,11 +70,15 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAddPlayer
                             value={newName} maxLength={11}
                             onChange={(e:any)=>changeInfoNewPlayer("name",e.target.value)}/>
                     </div>
-                    <div className="info">
-                        <span className="title">Enter player photo URL:</span>
-                        <input type="text" name="" id="" className="inputForm" 
-                            value={newImgUrl} 
-                            onChange={(e:any)=>changeInfoNewPlayer("imgUrl",e.target.value)}/>
+                    <div className="info" id="uploadImage">
+                        <span className="title">Upload the photo from your computer:</span>
+                        <input
+                            id="dropInput"
+                            type="file"
+                            accept=".jpg,.png,svg,.gif,.apng,.webp"
+                            onChange={onChange}
+                            placeholder={"adadsa"}
+                        />
                     </div>
                     <div className="info">
                         <span className="title">Enter player position: </span>
@@ -107,17 +119,20 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
     const dispatch = useDispatch();
 
     const [name,setName] = useState<string>(player.name);
-    const [imgUrl,setImgUrl] = useState<string>(player.imgUrl);
     const [position,setPosition] = useState<string>(player.position);
     const [age,setAge] = useState<number>(player.age);
     const [level,setLevel] = useState<1|2|3|4|5>(player.level);
     const id = player.id;
 
+    let blob;
+    typeof player.img === "string"  && player.img !== undefined &&
+        fetch(player.img).then(r => blob = r.blob());
+    const [file, setFile] = useState<File | undefined>(blob);
+    const [wrongFormat, setWrongFormat] = useState<Boolean>(false);
+
     function changeInfoPlayer(prop:string,value:string|number){
     
-        if(prop === 'imgUrl' && typeof value === 'string')
-            setImgUrl(value);
-        else if(prop === 'name' && typeof value === 'string')
+        if(prop === 'name' && typeof value === 'string')
             setName(value);
         else if(prop === 'position' && typeof value === 'string')
             setPosition(value);
@@ -128,20 +143,28 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
     }
     
     function validatePlayer(){
-        if(name.trim() === "" || imgUrl.trim() === ""  || position.trim() === "" )
+        if(name.trim() === "" || position.trim() === "" || wrongFormat)
             dispatch(changePopUp(true,"Error","Unable to edit player","Fill in the fields correctly"))
         else{
             confirm({
-                imgUrl:imgUrl,
                 age:age,
                 level:level,
                 name:name,
                 position:position,
-                id:id
+                id:id,
+                img:file
             })
             toggleModal();
         }
     }
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        if (e?.target?.files) {    
+            if (e.target.files[0]) 
+                setFile(e.target.files[0]);
+            else setWrongFormat(true);
+        }
+    };
 
     return(
         <div className="overlay">
@@ -159,11 +182,15 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
                             value={name} maxLength={11}
                             onChange={(e:any)=>changeInfoPlayer("name",e.target.value)}/>
                     </div>
-                    <div className="info">
-                        <span className="title">Enter player photo URL:</span>
-                        <input type="text" name="" id="" className="inputForm" 
-                            value={imgUrl} 
-                            onChange={(e:any)=>changeInfoPlayer("imgUrl",e.target.value)}/>
+                    <div className="info" id="uploadImage">
+                        <span className="title">Upload the photo from your computer:</span>
+                        <input
+                            id="dropInput"
+                            type="file"
+                            accept=".jpg,.png,svg,.gif,.apng,.webp"
+                            onChange={onChange}
+                            placeholder={"adadsa"}
+                        />
                     </div>
                     <div className="info">
                         <span className="title">Enter player position: </span>

@@ -7,7 +7,7 @@ export type ITeamProps = {
 }
 
 export type IPlayerProps = {
-  imgUrl:string
+  img?:File|string
   name: string
   age: number
   position: string

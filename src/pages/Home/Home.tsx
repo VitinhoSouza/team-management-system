@@ -22,6 +22,12 @@ export function Home(){
     const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
     const [players,setPlayers] = useState<IPlayerProps[]>([]);
 
+    /* const [file, setFile] = useState<File | undefined>(undefined);
+
+    function toggleFile(file:File|undefined) {
+        setFile(file);
+    }
+ */
     function toggleModalCreate(){
         if(modalCreateIsOn === true){
             setModalCreateIsOn(false);
@@ -42,12 +48,13 @@ export function Home(){
                 newIdPlayer = players[players.length - 1].id + 1;
             const userRef = database.ref('users/'+userState.id+'/players');
             userRef.push({
-                imgUrl:player.imgUrl,
                 name: player.name.toLocaleUpperCase(),
                 age: player.age,
                 position: player.position,
                 level: player.level,
-                id:newIdPlayer
+                id:newIdPlayer,
+                img: player.img !== undefined && typeof player.img !== 'string' &&
+                    URL.createObjectURL(player.img)
             })
             
             dispatch(changePopUp(true,"Success","The player was created.",""));
@@ -77,11 +84,12 @@ export function Home(){
         return(
             players.map((player:IPlayerProps) => {
                 return <PlayerCard 
-                        age={player.age} id={player.id} imgUrl={player.imgUrl}
+                        age={player.age} id={player.id}
                         level={player.level} name={player.name} 
                         position={player.position} 
                         key={`player#${player.uid}`}
                         uid={player.uid}
+                        img={player.img}
                     />
             })
             
@@ -100,9 +108,10 @@ export function Home(){
                 playersWithId !== null && playersWithId !== undefined &&
                     playersWithId.forEach((playerWithId:any) => {
                         playersForUser.push({
-                            uid:playerWithId[0],age:playerWithId[1].age,imgUrl:playerWithId[1].imgUrl,
-                            level:playerWithId[1].level,name:playerWithId[1].name,position:playerWithId[1].position,
-                            id:playerWithId[1].id,
+                            uid:playerWithId[0],age:playerWithId[1].age,
+                            level:playerWithId[1].level,name:playerWithId[1].name,
+                            position:playerWithId[1].position,
+                            id:playerWithId[1].id,img:playerWithId[1].img
                         });
                     })
                 

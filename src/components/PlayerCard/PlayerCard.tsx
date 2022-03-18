@@ -15,7 +15,8 @@ import logoStar from '../../assets/star.svg';
 
 import './PlayerCard.scss';
 
-export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,WithinATeam}:IPlayerProps){
+export function PlayerCard({name,age,position,level,id,uid,
+                            isCaptain,WithinATeam, img}:IPlayerProps){
 
     const [modalEditIsOn, setModalEditIsOn] = useState(false);
     const [modalDeleteIsOn, setModalDeleteIsOn] = useState(false);
@@ -51,13 +52,14 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
         get(child(dbRef, `users/${userState.id}/players`)).then((result) => {
             const userRef = database.ref('users/'+userState.id+'/players');
             userRef.push({
-                imgUrl:player.imgUrl,
                 name: player.name.toLocaleUpperCase(),
                 age: player.age,
                 position: player.position,
                 level: player.level,
                 id:player.id,
-                uid:uid
+                uid:uid,
+                img: player.img !== undefined && typeof player.img !== 'string' &&
+                    URL.createObjectURL(player.img)
             })
             
             dispatch(changePopUp(true,"Success","The player was updated.",""));
@@ -102,7 +104,7 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
                                 actionButton="Edit"
                                 title="Editing the player"
                                 player={
-                                    {imgUrl,name,age,position,level,id}
+                                    {name,age,position,level,id,img}
                                 }
                 />
             )}
@@ -113,7 +115,10 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
                                 idPlayer={id} namePlayer={name}
                 />
             )}
-            <img className='photoPlayer' src={imgUrl} alt="Player" />
+
+            {typeof img === 'string' ?
+                <img className='photoPlayer' src={img} alt="Player" />
+                : <img className='photoPlayer' src="" alt="Player" />}
        
             {WithinATeam === true ? (
                 <>

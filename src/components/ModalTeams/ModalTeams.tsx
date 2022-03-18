@@ -34,9 +34,10 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAddTeam) => {
                 playersWithId !== null && playersWithId !== undefined &&
                     playersWithId.forEach((playerWithId:any) => {
                         playersForUser.push({
-                            uid:playerWithId[0],age:playerWithId[1].age,imgUrl:playerWithId[1].imgUrl,
-                            level:playerWithId[1].level,name:playerWithId[1].name,position:playerWithId[1].position,
-                            id:playerWithId[1].id,
+                            uid:playerWithId[0],age:playerWithId[1].age,
+                            level:playerWithId[1].level,name:playerWithId[1].name,
+                            position:playerWithId[1].position,
+                            id:playerWithId[1].id,img:playerWithId[1].img
                         });
                     })
                 
@@ -249,9 +250,10 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEditTeam) => {
                 playersWithId !== null && playersWithId !== undefined &&
                     playersWithId.forEach((playerWithId:any) => {
                         playersForUser.push({
-                            uid:playerWithId[0],age:playerWithId[1].age,imgUrl:playerWithId[1].imgUrl,
-                            level:playerWithId[1].level,name:playerWithId[1].name,position:playerWithId[1].position,
-                            id:playerWithId[1].id,
+                            uid:playerWithId[0],age:playerWithId[1].age,
+                            level:playerWithId[1].level,name:playerWithId[1].name,
+                            position:playerWithId[1].position,
+                            id:playerWithId[1].id,img:playerWithId[1].img
                         });
                     })
                 

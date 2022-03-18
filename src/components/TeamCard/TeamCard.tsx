@@ -115,9 +115,10 @@ export function TeamCard({id,idPlayers,name,idCaptain,uid}:ITeamProps){
                 playersWithId !== null && playersWithId !== undefined &&
                     playersWithId.forEach((playerWithId:any) => {
                         playersForUser.push({
-                            uid:playerWithId[0],age:playerWithId[1].age,imgUrl:playerWithId[1].imgUrl,
-                            level:playerWithId[1].level,name:playerWithId[1].name,position:playerWithId[1].position,
-                            id:playerWithId[1].id,
+                            uid:playerWithId[0],age:playerWithId[1].age,
+                            level:playerWithId[1].level,name:playerWithId[1].name,
+                            position:playerWithId[1].position,
+                            id:playerWithId[1].id,img:playerWithId[1].img
                         });
                     })
                 
@@ -140,11 +141,12 @@ export function TeamCard({id,idPlayers,name,idCaptain,uid}:ITeamProps){
                     !(idPlayers.includes(player.id)) ? (<></>):
                         (
                             <PlayerCard 
-                                age={player.age} id={player.id} imgUrl={player.imgUrl}
+                                age={player.age} id={player.id}
                                 level={player.level} name={player.name} 
                                 position={player.position}
                                 isCaptain={isCaptain} WithinATeam={true}
                                 key={player.id}
+                                img={player.img}
                             />
                         )
                 )
