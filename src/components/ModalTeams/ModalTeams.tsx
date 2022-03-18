@@ -1,10 +1,11 @@
 
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import iconClose from "../../assets/close.svg";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import players from "../../assets/jsons/players.json";
+import iconClose from "../../assets/close.svg";
+import { database } from "../../services/firebase";
 import { changePopUp } from "../../store/PopUp/popUp.action";
+import { RootState } from "../../store/storeConfig";
 
 import './ModalTeams.scss';
 
@@ -13,6 +14,16 @@ type ITeamProps = {
     idPlayers: Array<number>
     name: string
     idCaptain: number
+}
+
+type IPlayerProps = {
+    imgUrl:string
+    name: string
+    age: number
+    position: string
+    level: 1 | 2 | 3 | 4 | 5
+    id:number
+    uid?:any
 }
 
 
@@ -34,20 +45,64 @@ type IModalDelete = {
     nameTeam: string;
 }
 
+
+
 const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
 
     const dispatch = useDispatch();
+    const userState:any = useSelector<RootState>(state => state.auth.user);
 
     const [newName,setNewName] = useState<string>("");
     const [newIdCaptain,setNewIdCaptain] = useState<number>(1);
     const [newPlayers,setNewPlayers] = useState<Array<string>>([]);
     const [expanded,setExpanded] = useState(false);
 
+    const [players,setPlayers] = useState<IPlayerProps[]>([]);
+
+    const sortArray = (a:any, b:any) => {
+        if (a.id > b.id) {
+          return 1;
+        } else if (a.id < b.id) {  
+          return -1;
+        }
+        return 0;
+    };
+
+    useEffect(()=>{
+        if(userState.id !== undefined && userState.id !== ''){
+            let playersForUser:Array<IPlayerProps> = [];
+            const userRef = database.ref(`users/${userState.id}/players`);
+            userRef.once('value',user =>{
+                let playersWithId = undefined;
+                if(user.val() !== null)
+                    playersWithId = Object.entries(user.val());
+            
+                playersWithId !== null && playersWithId !== undefined &&
+                    playersWithId.forEach((playerWithId:any) => {
+                        playersForUser.push({
+                            uid:playerWithId[0],age:playerWithId[1].age,imgUrl:playerWithId[1].imgUrl,
+                            level:playerWithId[1].level,name:playerWithId[1].name,position:playerWithId[1].position,
+                            id:playerWithId[1].id,
+                        });
+                    })
+                
+                playersForUser.sort(sortArray);
+                setPlayers(playersForUser);
+            })
+            return ()=>{
+                userRef.off('value');
+            }
+        }
+
+    },[userState])
+
     let sizePlayers = 0;
     let fixedValue = 14;
+    let marginTopFooter = 0
     if(expanded){
         sizePlayers = (players.length * 1.2);
         fixedValue += 2.5;
+        marginTopFooter = (sizePlayers/2)*1.9;
     }
 
     const styleMain ={
@@ -56,6 +111,11 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
     const styleModal ={
         height:`${(sizePlayers/2)+fixedValue}rem`
     }
+    const styleFooter ={
+        marginTop:`${marginTopFooter}rem`,
+        marginBottom:`1rem`
+    }    
+
 
     function isSelectedCaptain(value:number){
         if(value === newIdCaptain)
@@ -106,12 +166,14 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
     function validateTeam(){
         if(onlyCharSpace(newName) || newPlayers.length === 0)
             dispatch(changePopUp(true,"Error","Unable to create team","Fill in the fields correctly"))
+        else if(!transformInNumbers(newPlayers).includes(newIdCaptain))
+            dispatch(changePopUp(true,"Error","Unable to create team","The captain needs is among the players"));
         else{
             confirm({
                 id:3,
                 idCaptain:newIdCaptain,
                 idPlayers: transformInNumbers(newPlayers),
-                name:newName
+                name:newName.toLocaleUpperCase()
             })
             toggleModal();
         }
@@ -129,6 +191,10 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
         return completedString.substr(0, 20);
     }
 
+    function returnSubstring(value:string){
+        return value.substr(0,13);
+    }
+
     function showCheckboxes() {
         var checkboxes = document.getElementById("checkboxes");
         if(checkboxes === null) return;
@@ -143,7 +209,7 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
 
     return(
         <div className="overlayTeam">
-            <div className="modalTeam" id="modalCreateTeam" style={styleModal}>
+            <div className="modalTeam" id="modalCreateEditTeam" style={styleModal}>
                 <header className="header">
                     <div className="getout">
                         <img src={iconClose} alt="" onClick={toggleModal}/>
@@ -154,7 +220,7 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
                     <div className="info">
                         <span className="title">Enter team name: </span>
                         <input type="text" name="" id="" className="inputForm" 
-                            value={newName} 
+                            value={newName} maxLength={15}
                             onChange={(e:any)=>changeInfoNewTeam("name",e.target.value)}/>
                     </div>
                 
@@ -195,7 +261,7 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
                                                 onChange={() => changeInfoNewTeam("players",player.id.toString())}     
                                         >
                                                     <input type="checkbox" id={player.id} className="checkboxPlayers"/>
-                                                    #{player.id} - {player.name}
+                                                    {returnSubstring(`#${player.id} - ${player.name}`)}
                                         </label>
                                     )}
                                 )
@@ -205,7 +271,7 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
                         </form>
                     </div>
                 </main>
-                <footer className="buttonsModal-component">
+                <footer className="buttonsModal-component" style={styleFooter}>
                     <button onClick={toggleModal}>Cancel</button>
                     <button onClick={validateTeam}>Create</button>
                 </footer>
@@ -217,19 +283,59 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAdd) => {
 export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
 
     const dispatch = useDispatch();
-
-    
+    const userState:any = useSelector<RootState>(state => state.auth.user);
 
     const [newName,setNewName] = useState<string>(team.name);
     const [newIdCaptain,setNewIdCaptain] = useState<number>(team.idCaptain);
     const [newPlayers,setNewPlayers] = useState<Array<string>>([]); //transformInString(team.idPlayers)
     const [expanded,setExpanded] = useState(false);
 
+    const [players,setPlayers] = useState<IPlayerProps[]>([]);
+
+    const sortArray = (a:any, b:any) => {
+        if (a.id > b.id) {
+          return 1;
+        } else if (a.id < b.id) {  
+          return -1;
+        }
+        return 0;
+    };
+
+    useEffect(()=>{
+        if(userState.id !== undefined && userState.id !== ''){
+            let playersForUser:Array<IPlayerProps> = [];
+            const userRef = database.ref(`users/${userState.id}/players`);
+            userRef.once('value',user =>{
+                let playersWithId = undefined;
+                if(user.val() !== null)
+                    playersWithId = Object.entries(user.val());
+            
+                playersWithId !== null && playersWithId !== undefined &&
+                    playersWithId.forEach((playerWithId:any) => {
+                        playersForUser.push({
+                            uid:playerWithId[0],age:playerWithId[1].age,imgUrl:playerWithId[1].imgUrl,
+                            level:playerWithId[1].level,name:playerWithId[1].name,position:playerWithId[1].position,
+                            id:playerWithId[1].id,
+                        });
+                    })
+                
+                playersForUser.sort(sortArray);
+                setPlayers(playersForUser);
+            })
+            return ()=>{
+                userRef.off('value');
+            }
+        }
+
+    },[userState])
+
     let sizePlayers = 0;
-    let fixedValue = 14;
+    let fixedValue = 15;
+    let marginTopFooter = 0;
     if(expanded){
         sizePlayers = (players.length * 1.2);
         fixedValue += 2.5;
+        marginTopFooter = (sizePlayers/2)*1.9;
     }
 
     const styleMain ={
@@ -238,6 +344,10 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
     const styleModal ={
         height:`${(sizePlayers/2)+fixedValue}rem`
     }
+    const styleFooter ={
+        marginTop:`${marginTopFooter}rem`,
+        marginBottom:`1rem`
+    }    
 
     function isSelectedCaptain(value:number){
         if(value === newIdCaptain)
@@ -280,23 +390,23 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
         return true;
     }
 
-    function transformInString(idPlayers:Array<number>){
-        return idPlayers.map((id:number) => id.toString());
-    }
-
     function transformInNumber(idPlayers:Array<string>){
         return idPlayers.map((id:string) => parseInt(id));
     }
 
+    
+
     function validateTeam(){
         if(onlyCharSpace(newName) || newPlayers.length === 0)
-            dispatch(changePopUp(true,"Error","Unable to create team","Fill in the fields correctly"))
+            dispatch(changePopUp(true,"Error","Unable to edit team","Fill in the fields correctly"))
+        else if(!transformInNumber(newPlayers).includes(newIdCaptain))
+            dispatch(changePopUp(true,"Error","Unable to edit team","The captain needs is among the players"));
         else{
             confirm({
                 id:team.id,
                 idCaptain:newIdCaptain,
                 idPlayers: transformInNumber(newPlayers),
-                name:newName
+                name:newName.toLocaleUpperCase()
             })
             toggleModal();
         }
@@ -314,6 +424,11 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
         return completedString.substr(0, 20);
     }
 
+    function returnSubstring(value:string){
+        return value.substr(0,13);
+    }
+
+
     function showCheckboxes() {
         var checkboxes = document.getElementById("checkboxes");
         if(checkboxes === null) return;
@@ -328,18 +443,18 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
 
     return(
         <div className="overlayTeam">
-            <div className="modalTeam" id="modalCreateTeam" style={styleModal}>
+            <div className="modalTeam" id="modalCreateEditTeam" style={styleModal}>
                 <header className="header">
                     <div className="getout">
                         <img src={iconClose} alt="" onClick={toggleModal}/>
                     </div>
-                    <span className="title">Creating a team</span>
+                    <span className="title">Editing a team</span>
                 </header>
                 <main className="form">
                     <div className="info">
                         <span className="title">Enter team name: </span>
                         <input type="text" name="" id="" className="inputForm" 
-                            value={newName} 
+                            value={newName} maxLength={15}
                             onChange={(e:any)=>changeInfoNewTeam("name",e.target.value)}/>
                     </div>
                 
@@ -379,11 +494,11 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
                                         <label htmlFor={player.id}   
                                         >
                                                     <input type="checkbox" id={player.id} className="checkboxPlayers"
-                                                        // checked={isSelectedPlayer(player.id.toString(),false)}
+                                                        // checked={isSelectedPlayer(player.id.toString())}
                                                         onClick={() => changeInfoNewTeam("players",player.id.toString())} 
                                                         aria-checked={isSelectedPlayer(player.id.toString())}
                                                     />
-                                                    #{player.id} - {player.name}
+                                                    {returnSubstring(`#${player.id} - ${player.name}`)}
                                         </label>
                                     )}
                                 )
@@ -393,7 +508,7 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEdit) => {
                         </form>
                     </div>
                 </main>
-                <footer className="buttonsModal-component">
+                <footer className="buttonsModal-component" style={styleFooter}>
                     <button onClick={toggleModal}>Cancel</button>
                     <button onClick={validateTeam}>Edit</button>
                 </footer>

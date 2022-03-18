@@ -1,14 +1,22 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { getDatabase, ref, child, get } from "firebase/database";
 
-import plusIcon from '../../assets/plus.svg'
+import { database } from '../../services/firebase';
+import { RootState } from '../../store/storeConfig';
+import { changePopUp } from '../../store/PopUp/popUp.action';
+import { changeUser } from '../../store/Auth/auth.action';
 import { TeamCard } from '../../components/TeamCard/TeamCard';
-
-import teams from '../../assets/jsons/teams.json'
-
-import './Teams.scss';
-import { useState } from 'react';
 import ModalAddTeam from '../../components/ModalTeams/ModalTeams';
 
+import plusIcon from '../../assets/plus.svg'
+
+import './Teams.scss';
+
+
+
 type ITeamProps = {
+    uid?:any
     id: number
     idPlayers: Array<number>
     name: string
@@ -17,7 +25,20 @@ type ITeamProps = {
 
 export function Teams(){
 
+    const dispatch = useDispatch();
+    const userState:any = useSelector<RootState>(state => state.auth.user);
+
     const [modalCreateIsOn, setModalCreateIsOn] = useState(false);
+    const [teams,setTeams] = useState<ITeamProps[]>([]);
+
+    const sortArray = (a:any, b:any) => {
+        if (a.id > b.id) {
+          return 1;
+        } else if (a.id < b.id) {  
+          return -1;
+        }
+        return 0;
+    };
 
     function toggleModalCreate(){
         if(modalCreateIsOn === true){
@@ -28,15 +49,44 @@ export function Teams(){
     }
 
     function createTeam(team:ITeamProps){
-        console.log("Criando ", team );
-        // dispatch(changePopUp(false,"","",""));
+        
+        dispatch(changePopUp(false,"","",""));
+
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `users/${userState.id}/teams`)).then((result) => {
+
+            let lastElement:any;
+            let newIdTeam = 1;
+            if(result.val() !== null && Object.keys(result.val()).length > 0){ 
+                lastElement = Object.values(result.val())[ Object.values(result.val()).length -1];
+                newIdTeam = lastElement.id + 1;
+            }
+            const userRef = database.ref('users/'+userState.id+'/teams');
+            const firebaseUser = userRef.push({
+                id: newIdTeam,
+                idPlayers: team.idPlayers,
+                name: team.name,
+                idCaptain: team.idCaptain
+            })
+            
+            dispatch(changePopUp(true,"Success","The team was created.",""));
+            dispatch(changeUser(userState.id,userState.name,userState.avatar));
+        }).catch((error) => {
+            console.error(error);
+            dispatch(changePopUp(true,"Error","Unable to create team!",""));
+        });
     }
 
     function searchTeamByName(teamName:string){
-        console.log("Pesquisando ", teamName );
+        if(teamName !== ""){
+            let teamsFound = teams.filter(team => team.name.includes(teamName.toLocaleUpperCase()))
+            setTeams(teamsFound);
+        }else{
+            dispatch(changeUser(userState.id,userState.name,userState.avatar));
+        }
     }
 
-    function mountTeams(name?:string){
+    function mountTeams(){
         return(
             teams.map((team:any) => {
                 return <TeamCard 
@@ -45,18 +95,48 @@ export function Teams(){
                             name={team.name}
                             idPlayers={team.idPlayers}
                             key={`${team.id}_key`}
+                            uid={team.uid}
                         />
             })
             
         )
     }
 
+    useEffect(()=>{
+        if(userState.id !== undefined && userState.id !== ''){
+            let teamsForUser:Array<ITeamProps> = [];
+            const userRef = database.ref(`users/${userState.id}/teams`);
+            userRef.once('value',user =>{
+                let teamsWithId = undefined;
+                if(user.val() !== null)
+                    teamsWithId = Object.entries(user.val());
+                teamsWithId !== null && teamsWithId !== undefined &&
+                    teamsWithId.forEach((teamsWithId:any) => {
+                        teamsForUser.push({
+                            uid:teamsWithId[0],
+                            id:teamsWithId[1].id,
+                            idCaptain:teamsWithId[1].idCaptain,
+                            idPlayers:teamsWithId[1].idPlayers,
+                            name:teamsWithId[1].name,
+                        });
+                    })
+                
+                teamsForUser.sort(sortArray);
+                setTeams(teamsForUser);
+            })
+            return ()=>{
+                userRef.off('value');
+            }
+        }
+
+    },[userState])
+
     return(
         <div className="teamsContainer">
 
             {modalCreateIsOn && (
                 <ModalAddTeam toggleModal={toggleModalCreate} 
-                                confirm={createTeam}
+                                confirm={(createTeam)}
                 />
             )}
 

@@ -1,16 +1,20 @@
 import { useState } from "react";
-import logoStar from '../../assets/star.svg';
-import { IconDelete } from '../../assets/components/iconDelete';
-import { IconEdit } from '../../assets/components/iconEdit';
-import { ModalDeletePlayer, ModalEditPlayer } from '../ModalPlayers/ModalPlayers';
-
-import './PlayerCard.scss';
 import { child, get, getDatabase, ref } from "firebase/database";
 import { useDispatch, useSelector } from "react-redux";
+
 import { RootState } from "../../store/storeConfig";
 import { database } from "../../services/firebase";
 import { changeUser } from "../../store/Auth/auth.action";
 import { changePopUp } from "../../store/PopUp/popUp.action";
+import { IconDelete } from '../../assets/components/iconDelete';
+import { IconEdit } from '../../assets/components/iconEdit';
+import { ModalDeletePlayer, ModalEditPlayer } from '../ModalPlayers/ModalPlayers';
+
+import logoStar from '../../assets/star.svg';
+
+import './PlayerCard.scss';
+
+
 
 type IPlayerProps = {
     uid?:any
@@ -51,7 +55,6 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
 
 
     function editPlayer(player:IPlayerProps){
-        console.log("Editando o jogador",player);
         toggleModalEdit();
         
         dispatch(changePopUp(false,"","",""));
@@ -71,9 +74,11 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
                 uid:uid
             })
             
+            dispatch(changePopUp(true,"Success","The player was updated.",""));
             dispatch(changeUser(userState.id,userState.name,userState.avatar));
         }).catch((error) => {
             console.error(error);
+            dispatch(changePopUp(true,"Error","Unable to update player!",""));
         });
     }
 
@@ -81,8 +86,10 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
         const userRef = await database.ref(`users/${userState.id}/players/${uid}`).remove()
         .then(() => {
             dispatch(changeUser(userState.id,userState.name,userState.avatar));
+            dispatch(changePopUp(true,"Success","The player was deleted.",""));
         }).catch((error) => {
             console.error(error);
+            dispatch(changePopUp(true,"Error","Unable to delete player!",""));
         });
     }
 
@@ -140,7 +147,7 @@ export function PlayerCard({imgUrl,name,age,position,level,id,uid,isCaptain,With
             <div className='infoPlayer' id={WithinATeam === true ? "withinATeam" : ""}>
                 <div className="nameCaptain">
                     {isCaptain ? (
-                        <h2 id="captain">#{id} - {name} C</h2>
+                        <h2 id="captain">#{id} - {name} (C)</h2>
                     ):(
                         <h2>#{id} - {name} </h2>
                     )}

@@ -104,7 +104,7 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAdd) => {
                     <div className="info">
                         <span className="title">Enter player name: </span>
                         <input type="text" name="" id="" className="inputForm" 
-                            value={newName} 
+                            value={newName} maxLength={11}
                             onChange={(e:any)=>changeInfoNewPlayer("name",e.target.value)}/>
                     </div>
                     <div className="info">
@@ -216,7 +216,7 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
                     <div className="info">
                         <span className="title">Enter player name: </span>
                         <input type="text" name="" id="" className="inputForm" 
-                            value={name} 
+                            value={name} maxLength={11}
                             onChange={(e:any)=>changeInfoPlayer("name",e.target.value)}/>
                     </div>
                     <div className="info">
@@ -264,7 +264,7 @@ export const ModalDeletePlayer = ({toggleModal,confirm,idPlayer,namePlayer}:IMod
 
     return(
         <div className="overlay">
-            <div className="modal" id="modalDelete">
+            <div className="modal" id="modalDeletePlayers">
                 <header className="header">
                     <div className="getout" onClick={toggleModal}>
                         <img src={iconClose} alt="" />

@@ -1,17 +1,17 @@
 import {useDispatch, useSelector} from 'react-redux';
 import { useEffect, useState } from 'react';
+import { getDatabase, ref, child, get } from "firebase/database";
 
+import { database } from '../../services/firebase';
 import { PlayerCard } from "../../components/PlayerCard/PlayerCard";
 import { RootState } from '../../store/storeConfig';
 import ModalAddPlayer from '../../components/ModalPlayers/ModalPlayers';
 import { changePopUp } from '../../store/PopUp/popUp.action';
-import { database } from '../../services/firebase';
-import { getDatabase, ref, child, get } from "firebase/database";
+import { changeUser } from '../../store/Auth/auth.action';
 
 import plusIcon from '../../assets/plus.svg';
 
 import './Home.scss';
-import { changeUser } from '../../store/Auth/auth.action';
 
 type IPlayerProps = {
     imgUrl:string
@@ -49,7 +49,7 @@ export function Home(){
         }
     }
 
-    function createPlayerDB(player:IPlayerProps){
+    function createPlayer(player:IPlayerProps){
         
         dispatch(changePopUp(false,"","",""));
 
@@ -59,8 +59,7 @@ export function Home(){
             let lastElement:any;
             let newIdPlayer = 1;
             if(result.val() !== null && Object.keys(result.val()).length > 0){ 
-                lastElement = Object.values(result.val())[ Object.values(result.val()).length -1];
-                newIdPlayer = lastElement.id + 1;
+                newIdPlayer = players[players.length - 1].id + 1;
             }
             const userRef = database.ref('users/'+userState.id+'/players');
             const firebaseUser = userRef.push({
@@ -72,9 +71,11 @@ export function Home(){
                 id:newIdPlayer
             })
             
+            dispatch(changePopUp(true,"Success","The player was created.",""));
             dispatch(changeUser(userState.id,userState.name,userState.avatar));
         }).catch((error) => {
             console.error(error);
+            dispatch(changePopUp(true,"Error","Unable to create player!",""));
         });
 
     }
@@ -111,16 +112,14 @@ export function Home(){
     useEffect(()=>{
         if(userState.id !== undefined && userState.id !== ''){
             let playersForUser:Array<IPlayerProps> = [];
-            const userRef = database.ref(`users/${userState.id}/`);
+            const userRef = database.ref(`users/${userState.id}/players`);
             userRef.once('value',user =>{
-                let playersAux2 = undefined;
-                if(user.val() !== null && user.val()?.players === undefined){
-                    let playersAux:any = Object.entries(user.val())[0][1];
-                    playersAux2 = Object.entries(playersAux);
-                }
-                let playersWithId:any = playersAux2 !== undefined ? playersAux2[0][1] : user.val()?.players;
+                let playersWithId = undefined;
+                if(user.val() !== null)
+                    playersWithId = Object.entries(user.val());
+            
                 playersWithId !== null && playersWithId !== undefined &&
-                    Object.entries(playersWithId).forEach((playerWithId:any) => {
+                    playersWithId.forEach((playerWithId:any) => {
                         playersForUser.push({
                             uid:playerWithId[0],age:playerWithId[1].age,imgUrl:playerWithId[1].imgUrl,
                             level:playerWithId[1].level,name:playerWithId[1].name,position:playerWithId[1].position,
@@ -142,7 +141,7 @@ export function Home(){
         <div className="homeContainer">
             {modalCreateIsOn && (
                 <ModalAddPlayer toggleModal={toggleModalCreate} 
-                                confirm={createPlayerDB} 
+                                confirm={createPlayer} 
                                 actionButton="Create"
                                 title="Creating a player"
                 />
