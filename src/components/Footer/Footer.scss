@@ -31,4 +31,34 @@
     }
 }
 
+@media (max-width: 385px){
+
+    .containerFooter {
+        height: 10rem;
+        .footer{
+            height: 10rem;
+
+            .text{
+                width: 2rem;
+                span{
+
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 310px){
+
+    .containerFooter {
+
+        .footer{
+            .icons-socialNetworks{
+                width: 6rem;
+            }
+        }
+    }
+}
+
+
 

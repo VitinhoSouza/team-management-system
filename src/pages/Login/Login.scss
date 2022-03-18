@@ -14,16 +14,16 @@
 
     @keyframes animationBall{
         0%{transform: translate(0px,0px);}
-        10%{transform: translate(300px,0px);}
-        20%{transform: translate(600px,0px);}
-        30%{transform: translate(900px,0px);}
-        40%{transform: translate(1250px,0px);}
-        50%{transform: translate(1250px,500px);}
-        60%{transform: translate(900px,500px);}
-        70%{transform: translate(600px,500px);}
-        80%{transform: translate(300px,500px);}
-        90%{transform: translate(0px,500px);}
-        100%{transform: translate(0px,0px);}
+        10%{transform: translate(20vw,0px);}
+        20%{transform: translate(45vw,0px);}
+        30%{transform: translate(70vw,0px);}
+        40%{transform: translate(90vw,0px);}
+        50%{transform: translate(90vw,80vh);}
+        60%{transform: translate(70vw,80vh);}
+        70%{transform: translate(45vw,80vh);}
+        80%{transform: translate(20vw,80vh);}
+        90%{transform: translate(0vw,80vh);}
+        100%{transform: translate(0vw,0vh);}
     }
 
     .img-ball2{
@@ -38,17 +38,17 @@
     }
 
     @keyframes animationBall2{
-        0%{transform: translate(1250px,500px);}
-        10%{transform: translate(900px,500px);}
-        20%{transform: translate(600px,500px);}
-        30%{transform: translate(300px,500px);}
-        40%{transform: translate(0px,500px);}
-        50%{transform: translate(0px,0px);}
-        60%{transform: translate(300px,0px);}
-        70%{transform: translate(600px,0px);}
-        80%{transform: translate(900px,0px);}
-        90%{transform: translate(1250px,0px);}
-        100%{transform: translate(1250px,500px);}
+        0%{transform: translate(90vw,80vh);}
+        10%{transform: translate(70vw,80vh);}
+        20%{transform: translate(45vw,80vh);}
+        30%{transform: translate(20vw,80vh);}
+        40%{transform: translate(0vw,80vh);}
+        50%{transform: translate(0px,0vh);}
+        60%{transform: translate(20vw,0vh);}
+        70%{transform: translate(45vw,0vh);}
+        80%{transform: translate(70vw,0vh);}
+        90%{transform: translate(90vw,0vh);}
+        100%{transform: translate(90vw,80vh);}
     }
 
     .photoField{
@@ -76,11 +76,13 @@
             }
             h1{
                 font-size: 100px; 
+                text-align: center;
             }
 
             h2{
                 padding-top: 50px;
                 font-size: 30px;
+                text-align: center;
             }
     
         }
@@ -108,4 +110,139 @@
             background-color: #bdbebd;
         }
     }
+}
+
+@media (max-width: 1150px){
+    .pageLogin{
+        .img-ball,.img-ball2{
+            width: 5rem ;
+            height: 5rem;
+        }
+
+        /* .content .texts {
+            h1{
+                font-size: 5rem;
+            }
+            h2{
+                font-size: 2rem;
+            }
+        } */
+    }
+    
+}
+
+@media (max-width: 825px){
+    .pageLogin{
+        .img-ball,.img-ball2{
+            width: 3.5rem ;
+            height: 3.5rem;
+        }
+
+        .content {
+
+            .texts {
+                h1{
+                    font-size: 5rem;
+                }
+                h2{
+                    font-size: 1.5rem;
+                }
+            }
+
+            .buttonGoogle{
+                width: 15rem;
+                img{
+                    width: 1.5rem;
+                }
+                span{
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    
+}
+
+@media (max-width: 625px){
+    .pageLogin{
+        .img-ball,.img-ball2{
+            width: 2.5rem ;
+            height: 2.5rem;
+        }
+        
+        .content {
+
+            .texts {
+                h1{
+                    font-size: 3.5rem;
+                }
+                h2{
+                    font-size: 1.2rem;
+                }
+            }
+
+            .buttonGoogle{
+                width: 12rem;
+                img{
+                    width: 1rem;
+                }
+                span{
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+    
+}
+
+/* @media (max-width: 450px){
+    .pageLogin{
+
+        .photoField{
+            transform: rotate(90deg);
+        }
+    }
+}
+ */
+@media (max-width: 400px){
+    .pageLogin{
+        .img-ball,.img-ball2{
+            width: 2rem ;
+            height: 2rem;
+        }
+        
+        .content {
+
+            .texts {
+                h1{
+                    font-size: 2.5em;
+                }
+                h2{
+                    font-size: 1rem;
+                }
+            }
+
+            .buttonGoogle{
+                width: 8rem;
+                img{
+                    width: 0.8rem;
+                    margin-left: 0.5rem;
+                }
+                span{
+                    font-size: 9px;
+                }
+            }
+        }
+    }
+    
+}
+
+@media (max-width: 320px){
+    .pageLogin{
+        .img-ball,.img-ball2{
+            width: 1.4rem ;
+            height: 1.4rem;
+        }
+    }
+    
 }

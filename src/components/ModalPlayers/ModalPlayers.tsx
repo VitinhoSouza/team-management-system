@@ -31,7 +31,7 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAddPlayer
     }
     
     function validatePlayer(){
-        if(newName.trim() !== "" || newImgUrl.trim() !== ""  || newPosition.trim() !== "" )
+        if(newName.trim() === "" || newImgUrl.trim() === ""  || newPosition.trim() === "" )
             dispatch(changePopUp(true,"Error","Unable to create player","Fill in the fields correctly"))
         else{
             confirm({
@@ -71,7 +71,7 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAddPlayer
                     <div className="info">
                         <span className="title">Enter player position: </span>
                         <input type="text" name="" id="" className="inputForm" 
-                            value={newPosition} 
+                            value={newPosition} maxLength={10}
                             onChange={(e:any)=>changeInfoNewPlayer("position",e.target.value)}/>
                     </div>
                     <div className="info">
@@ -128,7 +128,7 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
     }
     
     function validatePlayer(){
-        if(name.trim() !== "" || imgUrl.trim() !== ""  || position.trim() !== "" )
+        if(name.trim() === "" || imgUrl.trim() === ""  || position.trim() === "" )
             dispatch(changePopUp(true,"Error","Unable to edit player","Fill in the fields correctly"))
         else{
             confirm({
@@ -168,7 +168,7 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
                     <div className="info">
                         <span className="title">Enter player position: </span>
                         <input type="text" name="" id="" className="inputForm" 
-                            value={position} 
+                            value={position} maxLength={10}
                             onChange={(e:any)=>changeInfoPlayer("position",e.target.value)}/>
                     </div>
                     <div className="info">

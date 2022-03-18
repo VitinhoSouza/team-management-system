@@ -109,7 +109,7 @@ const ModalAddTeam = ({toggleModal,confirm}:IModalAddTeam) => {
     }
     
     function validateTeam(){
-        if(newName.trim() !== ""|| newPlayers.length === 0)
+        if(newName.trim() === ""|| newPlayers.length === 0)
             dispatch(changePopUp(true,"Error","Unable to create team","Fill in the fields correctly"))
         else if(!transformInNumbers(newPlayers).includes(newIdCaptain))
             dispatch(changePopUp(true,"Error","Unable to create team","The captain needs is among the players"));
@@ -325,7 +325,7 @@ export const ModalEditTeam = ({toggleModal,confirm,team}:IModalEditTeam) => {
     
 
     function validateTeam(){
-        if(newName.trim() !== "" || newPlayers.length === 0)
+        if(newName.trim() === "" || newPlayers.length === 0)
             dispatch(changePopUp(true,"Error","Unable to edit team","Fill in the fields correctly"))
         else if(!transformInNumber(newPlayers).includes(newIdCaptain))
             dispatch(changePopUp(true,"Error","Unable to edit team","The captain needs is among the players"));
