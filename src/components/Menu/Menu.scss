@@ -69,10 +69,9 @@
     }
 
     .soccerBall-menu{
-        position: absolute;
-        left: 2rem;
-        top:0.2rem;
+        position: relative;
         width: 4rem;
+        right: 3rem;
     }
 
     .menu{
@@ -173,7 +172,6 @@
    {
     height: 3rem !important;
     width: 3rem !important;
-    top: 0.8rem !important;
    }
 }
 
@@ -183,16 +181,25 @@
    {
     height: 2.5rem !important;
     width: 2.5rem !important;
-    top: 1rem !important;
+    right: 2rem !important;
    }
 }
 
-@media (max-width: 800px)
+@media (max-width: 790px)
+{
+  .soccerBall-menu
+   {
+    height: 2rem !important;
+    width: 2rem !important;
+   }
+}
+
+@media (max-width: 720px)
 {
   .soccerBall-menu
    {
     z-index: -1;
-    background-color: aqua;
+    width: 0 !important;
    }
 }
 
@@ -224,7 +231,7 @@
     .menu{
         width: 28rem !important;
     }
-    
+
     .navlink{
         padding: 1rem 3.7rem !important;
         >span{
@@ -233,10 +240,120 @@
     }
 
     #last{
+        margin-right:  -1rem !important;
 
         svg{
             width: 1rem !important;
             height: 1rem !important;
         }
+    }
+}
+
+@media (max-width: 470px){
+    
+    .menu{
+        width: 24rem !important;
+    }
+
+    .start{
+        width: 15rem  !important;
+    }
+    
+    .navlink{
+        padding: 1rem 3.3rem !important;
+    }
+}
+
+@media (max-width: 415px){
+    
+    .start{
+        width: 15rem  !important;
+    }
+    
+    .navlink{
+        padding: 1rem 3rem !important;
+    }
+    #last{
+        margin-right:  0rem !important;
+    }
+}
+
+@media (max-width: 400px){
+
+    .menu{
+        width: 2rem !important;
+    }
+    
+    .start{
+        width: 14rem  !important;
+    }
+    
+    .navlink{
+        padding: 1rem 2.5rem !important;
+    }
+}
+
+@media (max-width: 360px){
+
+    .userInfo{
+        min-width: 2.5rem !important;
+        img{
+            width: 1.5rem !important;
+            height: 1.5rem !important;
+        }
+    
+        span{
+            font-size: 0.6rem !important;
+            margin: 0 !important;
+        }
+
+    }
+    
+    .menu{
+        width: 14rem !important;
+    }
+
+    .start{
+        width: 11rem  !important;
+    }
+    
+    .navlink{
+        padding: 1rem 2.5rem !important;
+    }
+
+    #last{
+        border-left: none !important;
+    }
+}
+
+@media (max-width: 360px){
+
+    
+    .menu{
+        width: 10rem !important;
+    }
+
+    .start{
+        width: 9rem  !important;
+    }
+    
+    .navlink{
+        padding: 1rem 2rem !important;
+    }
+}
+
+@media (max-width: 290px){
+
+    
+    .menu{
+        width: 9rem !important;
+    }
+
+    .start{
+        width: 8rem  !important;
+    }
+    
+    .navlink{
+        padding: 1rem 1.7rem !important;
     }
 }
