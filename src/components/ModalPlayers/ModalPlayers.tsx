@@ -31,7 +31,7 @@ const ModalAddPlayer = ({toggleModal,confirm,actionButton,title}:IModalAddPlayer
     }
     
     function validatePlayer(){
-        if(newName.trim() === "" || newPosition.trim() === "" || wrongFormat)
+        if(newName.trim() === "" || newPosition.trim() === "" || file === undefined|| wrongFormat )
             dispatch(changePopUp(true,"Error","Unable to create player","Fill in the fields correctly"))
         else{
             confirm({
@@ -183,7 +183,8 @@ export const ModalEditPlayer = ({toggleModal,confirm,actionButton,title,player}:
                             onChange={(e:any)=>changeInfoPlayer("name",e.target.value)}/>
                     </div>
                     <div className="info" id="uploadImage">
-                        <span className="title">Upload the photo from your computer:</span>
+                        <span className="title">Upload the photo from your computer 
+                            (in case you want to replace the current one):</span>
                         <input
                             id="dropInput"
                             type="file"

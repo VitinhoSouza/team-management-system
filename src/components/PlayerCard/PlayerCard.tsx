@@ -42,9 +42,18 @@ export function PlayerCard({name,age,position,level,id,uid,
 
 
     function editPlayer(player:IPlayerProps){
+
+        
         toggleModalEdit();
         
         dispatch(changePopUp(false,"","",""));
+
+        let imgPlayer:string;
+        database.ref(`users/${userState.id}/players/${uid}`).get().then((result)=>{
+            imgPlayer = result.val().img;
+        });
+
+
 
         deletePlayer();
 
@@ -58,8 +67,9 @@ export function PlayerCard({name,age,position,level,id,uid,
                 level: player.level,
                 id:player.id,
                 uid:uid,
-                img: player.img !== undefined && typeof player.img !== 'string' &&
-                    URL.createObjectURL(player.img)
+                img: typeof player.img !== 'undefined' && typeof player.img !== "string" ? 
+                    URL.createObjectURL(player.img) : imgPlayer
+
             })
             
             dispatch(changePopUp(true,"Success","The player was updated.",""));
