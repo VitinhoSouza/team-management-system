@@ -34,7 +34,7 @@ function App() {
           "To access the home screen you need to login with a google account.")) */
         }
       }
-      else if(history.location.pathname === '/home'){
+      else if(history.location.pathname === '/home' || history.location.pathname === '/teams'){
         // console.log(history, "tentou /home");
         history.push("/");
         /* dispatch(changePopUp(true,"Error","Unauthorized access!",
