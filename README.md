@@ -2,13 +2,13 @@
 This is **Team Management System**, a system that provides the management of players and teams, conceived and implemented by myself. 🙋‍♂️
 
 ## Login screen:
-![Imagem de uma das telas da aplicação](https://github.com/VitinhoSouza/Estudos/blob/master/NLW6/letmeask/letmeask.png)
+![Imagem de uma das telas da aplicação](https://github.com/VitinhoSouza/team-management-system/blob/master/images/tms.png)
 
 ## Home screen (for player management):
-![Imagem de uma das telas da aplicação](https://github.com/VitinhoSouza/Estudos/blob/master/NLW6/letmeask/letmeask.png)
+![Imagem de uma das telas da aplicação](https://github.com/VitinhoSouza/team-management-system/blob/master/images/tms-home.png)
 
 ## Teams screen (for teams management):
-![Imagem de uma das telas da aplicação](https://github.com/VitinhoSouza/Estudos/blob/master/NLW6/letmeask/letmeask.png)
+![Imagem de uma das telas da aplicação](https://github.com/VitinhoSouza/team-management-system/blob/master/images/tms-teams.png)
 
 ## System features:
 This system aims to manage players and teams, being possible to:
